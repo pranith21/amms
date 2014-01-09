@@ -1,0 +1,79 @@
+<project name="iq-amms build" default="start" basedir=".">
+
+	<property file="main-build.properties" />
+
+	<target name="start">
+		<echo message="${StartMsg}" />
+		<tstamp>
+			<format property="build.date" pattern="${build.date.pattern}" />
+			<format property="build.time" pattern="${build.time.pattern}"/>
+		</tstamp>
+		<echo message="Build Date: ${build.date}" />
+		<echo message="Build Time: ${build.time}hrs" />
+		<echo message="Build By  : ${build.user}" />
+		
+		<delete dir="${build.home}" />
+		
+		<mkdir dir="${build.home}/amms" />
+		<mkdir dir="${build.home}/amms/web" />
+		<mkdir dir="${build.home}/amms/setup" />
+		
+		<copy todir="${build.home}/amms/web">
+			<fileset dir="${WebContent.dir}">
+				<include name="**" />
+			</fileset>
+			<fileset dir="${setup.resource.dir}">
+				<include name="**/*.conf" />
+			</fileset>
+		</copy>
+		
+		<ant antfile="setup-jar-build.xml" target="start" />
+
+		<!-- for test -->
+		
+		<exec dir="C:/WINDOWS/system32" executable="cmd" os="Windows XP">
+			<arg line="/c D:/SW/apache-tomcat-7.0.25/bin/shutdown.bat"/>
+	    </exec>
+
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms" />
+
+		<!--delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.html" />
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.jsp" />
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.css" />
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.js" />
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.class" />
+		<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.xml" /-->
+		
+		<!--delete>
+			<fileset dir="D:/SW/apache-tomcat-7.0.25/webapps/amms"-->
+				<!--include name="**/*.html"/>
+				<include name="**/*.jsp"/>
+				<include name="**/*.css"/>
+				<include name="**/*.js"/>
+				<include name="**/*.xml"/>
+				<include name="**/*.class"/>
+				<include name="**/*.MF"/>
+				<include name="**/*.registry"/>
+				<include name="**/*.jar"/>
+				<include name="**/*.jpg"/>
+				<include name="**/*.png"/>
+				<include name="**/*.gif"/-->
+				<!--exclude name="db/**" />
+			</fileset>
+		</delete-->
+
+		<mkdir dir="D:/SW/apache-tomcat-7.0.25/webapps/amms" />
+
+		<copy todir="D:/SW/apache-tomcat-7.0.25/webapps/amms">
+			<fileset dir="${build.home}/amms/web">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
+		<exec dir="C:/WINDOWS/system32" executable="cmd" os="Windows XP">
+			<arg line="/c D:/SW/apache-tomcat-7.0.25/bin/startup.bat"/>
+	    </exec>
+		<!-- for test -->
+	</target>
+	
+</project>
