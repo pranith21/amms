@@ -41,10 +41,15 @@ public class LookupApartment extends BaseService {
     FlatDetailsVO flatDetailsVO =
         flatsHelper.getFlatDetails(block, flatNumber);
     
-    DwellersMasterVO dwellersMasterVO = flatsHelper.getDwellerDetails(block, flatNumber);
+    DwellersMasterVO dwellersMasterVO = new DwellersMasterVO();
     
-    FinancialsHelper financialsHelper = new FinancialsHelper();
-    FinancialDetailsVO financialDetailsVO = financialsHelper.getFinancialDetails(flatDetailsVO.getFlatId());
+    FinancialDetailsVO financialDetailsVO = new FinancialDetailsVO();
+	if (flatDetailsVO != null) {
+		dwellersMasterVO = flatsHelper.getDwellerDetails(block, flatNumber);
+		FinancialsHelper financialsHelper = new FinancialsHelper();
+		financialDetailsVO = financialsHelper.getFinancialDetails(flatDetailsVO
+				.getFlatId());
+	}
 
     resultAttributes.put("flatDetailsVO", flatDetailsVO);
     resultAttributes.put("dwellersMasterVO", dwellersMasterVO);

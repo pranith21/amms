@@ -16,7 +16,7 @@ public class DatabaseHandler {
 
   public static final String DB_NAME = "AMMS";
   private static final String DROP_DB_QUERY =
-    "DROP DATABASE " + DB_NAME;
+    "DROP DATABASE IF EXISTS " + DB_NAME;
   private static final String CREATE_DB_QUERY =
     "CREATE DATABASE IF NOT EXISTS " + DB_NAME;
   private static final String DB_SCRIPT_FILE_NAME =
