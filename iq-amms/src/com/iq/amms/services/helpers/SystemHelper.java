@@ -91,7 +91,7 @@ public Double getLatePaymentAmount() throws DbException{
 		        mySqlSession.executeQuery(SYSTEM_PARAMS_SELECT_QUERY,
 		        		LATE_PAYMENT_PARAM_NAME);
 		    if (dataSet != null && dataSet.getRowCount() > 0) {
-		      return Double.valueOf(dataSet.getStringValue(0, 0));
+		      return Double.valueOf(dataSet.getStringValue(0, 0)); 
 		    }
 		    return null;
   }
