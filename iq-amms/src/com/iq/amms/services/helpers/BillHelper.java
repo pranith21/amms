@@ -53,7 +53,7 @@ public class BillHelper extends BaseHelper {
    * @throws Exception
    * 
    */
-  public void generateInvoices() throws Exception {
+  public void generateInvoices(Date current) throws Exception {
     FlatsHelper flatsHelper = new FlatsHelper();
     ArrayList<FlatDetailsVO> flatDetailsVOList = flatsHelper.getAllFlats();
     int billId = 0;
@@ -63,7 +63,6 @@ public class BillHelper extends BaseHelper {
 
       billMasterVO.setFlatId(flatDetailsVO.getFlatId());
 
-      Date current = new Date("01/01/2014");
       billMasterVO.setBillId("MGRA/" + (1900 + current.getYear()) + "/"
           + (current.getMonth() + 1) + "/"
           + (StringUtil.padCharLead("" + (++billId), 4, "0")));
@@ -119,8 +118,7 @@ public class BillHelper extends BaseHelper {
       FinancialDetailsVO newFincDetailsVO = new FinancialDetailsVO();
       newFincDetailsVO.setFlatId(financialDetailsVO.getFlatId());
       newFincDetailsVO.setCurrentBalance(thisMonthAmount);
-      newFincDetailsVO.setPriorBalanceMonthOne(financialDetailsVO
-          .getCurrentBalance());
+      newFincDetailsVO.setPriorBalanceMonthOne(thisMonthAmount-financialDetailsVO.getCurrentBalance());
       newFincDetailsVO.setPriorBalanceMonthTwo(financialDetailsVO
           .getPriorBalanceMonthOne());
       newFincDetailsVO.setPriorBalanceMonthThree(financialDetailsVO
