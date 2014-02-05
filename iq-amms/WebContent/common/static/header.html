@@ -139,6 +139,7 @@ function overlay(sectionId) {
 		</div>
         <div class="overlayOptions">
           <button title="View all Apartments" onclick="location.href='apts-view-all.jsp?callFromFinc=true';">View all</button>
+          <button title="Pay Bill amount for the flat" onclick="location.href='lookup-flat.jsp'">Make Payment</button>
           <button title="Close this pop up" onclick="overlay('financials')">Close</button>
         </div>
 	</div>
@@ -148,6 +149,7 @@ function overlay(sectionId) {
 <!--SETTINGS OVERLAY STARTS-->
 <%
     Double monthlyRate = systemHelper.getMonthlyMaintenanceRate();
+    Double latePaymentAmount = systemHelper.getLatePaymentAmount();
 %>
 <div id="settings" class="overlayContainer">
 	<div class="overlayContentWrapper">
@@ -160,6 +162,8 @@ function overlay(sectionId) {
 		    <input name="ServiceName" type="hidden" value="UpdateSystemParams" />
 		    <div class="labels"><label for="ratePerSqft">Maintenance Rate (/sqft)</label></div>
 		    <div class="fields"><input type="text" id="ratePerSqft" name="ratePerSqft" value="<%=(monthlyRate>0)?monthlyRate:""%>" readonly /></div>
+		    <div class="labels"><label for="latePaymentAmount">Late Payment Amount (/month)</label></div>
+		    <div class="fields"><input type="text" id="latePaymentAmount" name="latePaymentAmount" value="<%=(latePaymentAmount>0)?latePaymentAmount:""%>" readonly /></div>
 		    <!--div class="fields"><input name="Submit" type="submit" value="Set new rate" /></div-->
 		  </form>
 		</div>
