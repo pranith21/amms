@@ -24,6 +24,7 @@ public class SetupConf {
   private static final String DB_PASS = "db.pass";
   private static final String MONTHLY_RATE = "monthly.rate";
   private static final String LAST_BILL_DATE = "last.bill.date";
+  private static final String LATE_PAYMENT_AMOUNT = "late.payment.amount";
 
   private static Properties sysProps = new Properties();
 
@@ -87,5 +88,10 @@ public class SetupConf {
    */
   public static String getLastBillDate() {
     return sysProps.getProperty(LAST_BILL_DATE);
-  }
+  }  /**
+   * @return
+   */
+  public static String getLatePaymentAmount() {
+    return sysProps.getProperty(LATE_PAYMENT_AMOUNT);
+  } 
 }

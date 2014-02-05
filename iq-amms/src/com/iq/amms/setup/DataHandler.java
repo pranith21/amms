@@ -59,7 +59,9 @@ public class DataHandler {
     mySqlSession.executeUpdate(SYSTEM_PARAMS_INSERT_QUERY,
         SystemHelper.MONTHLY_MAINTENANCE_PARAM_NAME, SetupConf.getMonthlyRate());
     mySqlSession.executeUpdate(SYSTEM_PARAMS_INSERT_QUERY,
-        SystemHelper.LAST_BILL_DATE_PARAM_NAME, SetupConf.getLastBillDate());
+            SystemHelper.LAST_BILL_DATE_PARAM_NAME, SetupConf.getLastBillDate());
+    mySqlSession.executeUpdate(SYSTEM_PARAMS_INSERT_QUERY,
+            SystemHelper.LATE_PAYMENT_PARAM_NAME, SetupConf.getLatePaymentAmount());
   }
 
 
