@@ -122,8 +122,15 @@ public class UpdateBill extends BaseService {
           financialsHelper.getFinancialDetails(Integer.valueOf(flatId));
       
       // creating updated finc table data
-      financialDetailsVO.setCurrentBalance(thisMonthAmount);
+      financialDetailsVO.setCurrentBalance(financialDetailsVO.getCurrentBalance()+thisMonthAmount);
       financialDetailsVO.setPriorBalanceMonthOne(thisMonthAmount);
+      financialDetailsVO.setPriorBalanceMonthTwo(financialDetailsVO.getPriorBalanceMonthOne());
+      financialDetailsVO.setPriorBalanceMonthThree(financialDetailsVO.getPriorBalanceMonthTwo());
+      financialDetailsVO.setPriorBalanceMonthFour(financialDetailsVO.getPriorBalanceMonthThree());
+      financialDetailsVO.setPriorBalanceMonthFive(financialDetailsVO.getPriorBalanceMonthFour());
+      financialDetailsVO.setPriorBalanceMonthSix(financialDetailsVO.getPriorBalanceMonthFive());
+      financialDetailsVO.setPriorBalanceMonthMore(financialDetailsVO.getPriorBalanceMonthSix()+
+    		  financialDetailsVO.getPriorBalanceMonthMore());
 
       // Updating DB
       billHelper.updateTotalAmount(billMasterVO.getBillId(),billMasterVO.getTotalAmount());

@@ -5,6 +5,7 @@
 
 package com.iq.amms.services;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.iq.service.BaseService;
@@ -23,7 +24,7 @@ public class GenarateBill extends BaseService {
   @Override
   public void execute(HashMap<String, Object> input) throws Exception {
     BillHelper billHelper = new BillHelper();
-    billHelper.generateInvoices();
+    billHelper.generateInvoices(new Date("01/01/2014"));
     redirectUrl = "/apts-view-all.jsp";
   }
 }
