@@ -30,6 +30,14 @@ public class FileUtil {
    * @param fileName
    * @return boolean
    */
+  public static boolean isFileExists(String fileName) {
+    return new File(fileName).exists();
+  }
+
+  /**
+   * @param fileName
+   * @return boolean
+   */
   public static boolean isFilenameValid(String fileName) {
     if (fileName != null) {
       File f = new File(fileName);
