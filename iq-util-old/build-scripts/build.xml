@@ -1,0 +1,36 @@
+<project name="iq-switch-client build" default="start" basedir=".">
+
+	<property file="build-props.properties" />
+
+	<target name="start">
+		<echo message="${StartMsg}" />
+		<tstamp>
+			<format property="build.date" pattern="${build.date.pattern}" />
+			<format property="build.time" pattern="${build.time.pattern}"/>
+		</tstamp>
+		<echo message="Build Date: ${build.date}" />
+		<echo message="Build Time: ${build.time}hrs" />
+		<echo message="Build By  : ${build.user}" />
+		<antcall target="initialize" />
+		<!--antcall target="unit-test" /-->
+		<antcall target="make-util-jar" />
+		<antcall target="make-src-zip" />
+	</target>
+	
+	<target name="initialize">
+			<ant antfile="initialize.xml" target="start" />
+	</target>
+
+	<target name="make-util-jar">
+			<ant antfile="make-util-jar.xml" target="start" />
+	</target>
+
+	<target name="make-src-zip">
+			<ant antfile="make-src-zip.xml" target="start" />
+	</target>
+
+	<target name="unit-test">
+			<ant antfile="unit-test.xml" target="start" />
+	</target>
+
+</project>
