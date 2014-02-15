@@ -1,8 +1,0 @@
-<project name="iq-util jar builder" default="start">
-	<target name="start">
-		<echo>${makeSrcMsg}</echo>
-		<zip destfile="${build.home}/src/${jar.name}_src.zip" basedir="${source.dir}">
-			<include name="**" />
-		</zip>
-	</target>
-</project>
