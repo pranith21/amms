@@ -8,8 +8,10 @@ import org.iq.service.BaseService;
 
 import com.iq.amms.Constants.PaymentMode;
 import com.iq.amms.services.helpers.FinancialsHelper;
+import com.iq.amms.services.helpers.FlatsHelper;
 import com.iq.amms.services.helpers.PaymentsHelper;
 import com.iq.amms.valueobjects.FinancialDetailsVO;
+import com.iq.amms.valueobjects.FlatDetailsVO;
 import com.iq.amms.valueobjects.PaymentDetailsVO;
 import com.iq.amms.valueobjects.PaymentMasterVO;
 
@@ -24,6 +26,7 @@ public class UpdatePaymentStatus extends BaseService {
       "newPaymentStatusSelect";
   private static final String PAYMENT_MASTER_VO_KEY = "paymentMasterVO";
   private static final String CURRENT_BALANCE_KEY = "currentBalance";
+  private static final String FULL_FLATNUMBER_KEY = "fullFlatNumber";
 
   /*
    * (non-Javadoc)
@@ -74,6 +77,10 @@ public class UpdatePaymentStatus extends BaseService {
       resultAttributes.put(PAYMENT_MASTER_VO_KEY,
           paymentMasterVOs.get(0));
     }
+    
+    FlatsHelper flatsHelper = new FlatsHelper();
+    FlatDetailsVO flatDetailsVO = flatsHelper.getFlatDetails(flatId);
+    resultAttributes.put(FULL_FLATNUMBER_KEY, flatDetailsVO.getFullFlatNumber());
     redirectUrl = "/payments.jsp";
   }
 }

@@ -75,157 +75,118 @@ public class PaymentsHelper extends BaseHelper {
           financialDetailsVO.setPriorBalanceMonthMore(new Double(0));
         }
         else {
-          if (financialDetailsVO.getPriorBalanceMonthMore() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthMore() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthMore();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthMore(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthMore();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthMore(tempAmount
-                  - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0 && financialDetailsVO.getPriorBalanceMonthSix() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthSix() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthSix();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthSix(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthSix();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthFive(tempAmount
-                  - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0
-              && financialDetailsVO.getPriorBalanceMonthFive() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthFive() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthFive();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthFive(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthFive();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthFive(tempAmount
-                  - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0
-              && financialDetailsVO.getPriorBalanceMonthFour() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthFour() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthFour();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthFour(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthFour();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthFour(tempAmount
-                  - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0
-              && financialDetailsVO.getPriorBalanceMonthThree() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthThree() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthThree();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthThree(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthThree();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthThree(tempAmount
-                  - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0 && financialDetailsVO.getPriorBalanceMonthTwo() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthTwo() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthTwo();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthTwo(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthTwo();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO
-                  .setPriorBalanceMonthTwo(tempAmount - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-          if (amount > 0 && financialDetailsVO.getPriorBalanceMonthOne() > 0) {
-            if (financialDetailsVO.getPriorBalanceMonthOne() <= amount) {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthOne();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO.setPriorBalanceMonthOne(new Double(0));
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-            else {
-              tempAmount = financialDetailsVO.getPriorBalanceMonthOne();
-              currentBalance = financialDetailsVO.getCurrentBalance();
-              financialDetailsVO
-                  .setPriorBalanceMonthOne(tempAmount - amount);
-              financialDetailsVO.setCurrentBalance(currentBalance - amount);
-              amount = amount - tempAmount;
-              tempAmount = null;
-              currentBalance = null;
-            }
-          }
-/*          if (amount > 0) {
+        	currentBalance = financialDetailsVO.getCurrentBalance();
+        	financialDetailsVO.setCurrentBalance(currentBalance - amount);
+        	if (financialDetailsVO.getPriorBalanceMonthMore() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthMore() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthMore();
+        			financialDetailsVO.setPriorBalanceMonthMore(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthMore();
+        			financialDetailsVO.setPriorBalanceMonthMore(tempAmount
+        					- amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0 && financialDetailsVO.getPriorBalanceMonthSix() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthSix() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthSix();
+        			financialDetailsVO.setPriorBalanceMonthSix(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthSix();
+        			financialDetailsVO.setPriorBalanceMonthFive(tempAmount
+        					- amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0
+        			&& financialDetailsVO.getPriorBalanceMonthFive() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthFive() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthFive();
+        			financialDetailsVO.setPriorBalanceMonthFive(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthFive();
+        			financialDetailsVO.setPriorBalanceMonthFive(tempAmount
+        					- amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0
+        			&& financialDetailsVO.getPriorBalanceMonthFour() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthFour() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthFour();
+        			financialDetailsVO.setPriorBalanceMonthFour(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthFour();
+        			financialDetailsVO.setPriorBalanceMonthFour(tempAmount
+        					- amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0
+        			&& financialDetailsVO.getPriorBalanceMonthThree() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthThree() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthThree();
+        			financialDetailsVO.setPriorBalanceMonthThree(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthThree();
+        			financialDetailsVO.setPriorBalanceMonthThree(tempAmount
+        					- amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0 && financialDetailsVO.getPriorBalanceMonthTwo() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthTwo() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthTwo();
+        			financialDetailsVO.setPriorBalanceMonthTwo(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthTwo();
+        			financialDetailsVO
+        			.setPriorBalanceMonthTwo(tempAmount - amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+        	if (amount > 0 && financialDetailsVO.getPriorBalanceMonthOne() > 0) {
+        		if (financialDetailsVO.getPriorBalanceMonthOne() <= amount) {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthOne();
+        			financialDetailsVO.setPriorBalanceMonthOne(new Double(0));
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        		else {
+        			tempAmount = financialDetailsVO.getPriorBalanceMonthOne();
+        			financialDetailsVO
+        			.setPriorBalanceMonthOne(tempAmount - amount);
+        			amount = amount - tempAmount;
+        			tempAmount = null;
+        		}
+        	}
+
+        	/*          if (amount > 0) {
             currentBalance = financialDetailsVO.getCurrentBalance();
             financialDetailsVO.setCurrentBalance(currentBalance - amount);
             currentBalance = null;

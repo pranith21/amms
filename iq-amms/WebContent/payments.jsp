@@ -60,6 +60,7 @@ function paymentModeSelectChange(paymentModeSelect) {
 	int flatId = (Integer)request.getAttribute("flatId");
 	Double currBal = (Double)request.getAttribute("currentBalance");
 	PaymentMasterVO paymentMasterVO = (PaymentMasterVO)request.getAttribute("paymentMasterVO");
+	String fullFlatNumber = request.getAttribute("fullFlatNumber").toString();
 	
 	String serviceName = "";
 	String buttonDisplay = "";
@@ -117,6 +118,7 @@ function paymentModeSelectChange(paymentModeSelect) {
 	}
 	if (!initialPayment){
 %>
+		<h3><%=fullFlatNumber %></h3>
 		<div id="lastPayment" class="formContainer">
 			<form id="lastPaymentForm" method="post" action="./ServerAdapter">
 				<input name="ServiceName" type="hidden" value="<%=serviceName%>" />

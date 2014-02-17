@@ -7,8 +7,10 @@ import java.util.HashMap;
 import org.iq.service.BaseService;
 
 import com.iq.amms.Constants.PaymentMode;
+import com.iq.amms.services.helpers.FlatsHelper;
 import com.iq.amms.services.helpers.PaymentsHelper;
 import com.iq.amms.valueobjects.ChequeDetailsVO;
+import com.iq.amms.valueobjects.FlatDetailsVO;
 import com.iq.amms.valueobjects.NeftDetailsVO;
 import com.iq.amms.valueobjects.PaymentDetailsVO;
 import com.iq.amms.valueobjects.PaymentMasterVO;
@@ -28,6 +30,7 @@ public class PayBill extends BaseService {
   private static final String FLAT_ID_KEY = "flatId";
   private static final String CURRENT_BALANCE_KEY = "currentBalance";
   private static final String PAYMENT_MASTER_VO_KEY = "paymentMasterVO";
+  private static final String FULL_FLATNUMBER_KEY = "fullFlatNumber";
 
   /*
    * (non-Javadoc)
@@ -134,7 +137,10 @@ public class PayBill extends BaseService {
         && paymentMasterVOs.size() > 0) {
       paymentMasterVO = paymentMasterVOs.get(0);
     }
-
+    
+    FlatsHelper flatsHelper = new FlatsHelper();
+    FlatDetailsVO flatDetailsVO = flatsHelper.getFlatDetails(flatId);
+    resultAttributes.put(FULL_FLATNUMBER_KEY, flatDetailsVO.getFullFlatNumber());
     resultAttributes.put(FLAT_ID_KEY, flatId);
     resultAttributes.put(CURRENT_BALANCE_KEY, currBal);
     resultAttributes.put(PAYMENT_MASTER_VO_KEY, paymentMasterVO);

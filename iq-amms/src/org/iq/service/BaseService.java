@@ -18,7 +18,7 @@ public abstract class BaseService {
       new HashMap<String, Object>();
   protected String redirectUrl = "NOT_FOUND_PAGE";
   protected MySqlSession mySqlSession = null;
-
+  
   /**
    * 
    */
@@ -42,7 +42,7 @@ public abstract class BaseService {
   public HashMap<String, Object> executeService(HashMap<String, Object> input)
       throws Exception {
     init(input);
-    validateAllInput(input);
+    //validateAllInput(input);
     execute(input);
     resultMap.put(ServiceConstants.RESULT_ATTRIBUTES, resultAttributes);
     resultMap.put(ServiceConstants.REDIRECT_URL, redirectUrl);
