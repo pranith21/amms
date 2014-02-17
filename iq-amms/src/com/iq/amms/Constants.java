@@ -16,19 +16,42 @@ public interface Constants {
    * 
    */
   public enum FlatStatus {
-    UNOCCUPPIED, OCCUPPIED;
+    SOLD("1"), UNSOLD("0");
 
+    private final String flatStatus;
+
+    FlatStatus(String type) {
+      flatStatus = type;
+    }
+
+    public String getFlatStatusValue() {
+      return flatStatus;
+    }
+
+    public static FlatStatus getFlatStatus(String type) {
+      if (StringUtil.isEmpty(type)) {
+        return FlatStatus.UNSOLD;
+      }
+      FlatStatus flatStatus = null;
+      for (FlatStatus stat : FlatStatus.values()) {
+        if (stat.getFlatStatusValue().equals(type)) {
+          flatStatus = stat;
+        }
+      }
+      return flatStatus;
+    }
+    
     /**
      * @return dataType
      */
     public String toString() {
       switch (this) {
-        case UNOCCUPPIED:
-          return "Unoccuppied";
-        case OCCUPPIED:
-          return "Occuppied";
+        case SOLD:
+          return "1";
+        case UNSOLD:
+          return "0";
         default:
-          return "Unoccuppied";
+          return "0";
       }
     }
   }

@@ -28,11 +28,13 @@ public class Login extends BaseService {
   private static final String USERNAME_KEY = "username";
   private static final String PASSWORD_KEY = "password";
   private static final String OPERATION_NAME = "operationName";
+  private static final String OPERATION_TYPE = "operationType";  
   private static final String DWELLER__MASTER_DETAILS = "dwellersMasterVO";
   private static final String FLAT_DETAILS = "flatDetailsVO";
-  private static final String FLAT_ID = "flatID";
+  private static final String FLAT_ID = "flatIDValue";
   private static final String FINANCIAL_DETAILS = "financialDetailsVO";
   private static final String EDIT_DWELLER_DETAILS = "editDwellerFlag";
+  private static final String EDIT_FLAT_DETAILS = "editFlatDetails";
   private static final String ADMIN_USERNAME = "su";
   private static final String ADMIN_PASSWORD = "su";
 
@@ -71,7 +73,15 @@ public class Login extends BaseService {
 				  resultAttributes.put(FLAT_DETAILS, flatDetailsVO);
 				  resultAttributes.put(DWELLER__MASTER_DETAILS, dwellersMasterVO);
 				  resultAttributes.put(FINANCIAL_DETAILS, financialDetailsVO);
-				  resultAttributes.put(EDIT_DWELLER_DETAILS, true);
+				  String operationType = null;
+				  if(input.get(OPERATION_TYPE)!=null){
+					  operationType = input.get(OPERATION_TYPE).toString();
+				  }
+				  if ("Edit Dweller Details".equals(operationType)) {
+					  resultAttributes.put(EDIT_DWELLER_DETAILS, true);
+				  }else if ("Edit Flat Details".equals(operationType)){
+					  resultAttributes.put(EDIT_FLAT_DETAILS, true);
+				  }
 				  redirectUrl = "/apts-detail.jsp";			  
 		  }else{
 			  SessionVO sessionVO = new SessionVO();

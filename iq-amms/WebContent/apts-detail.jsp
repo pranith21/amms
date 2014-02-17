@@ -11,6 +11,12 @@
 <link href="styles/table-sorter-style.css" rel=StyleSheet type="text/css" />
 <script src="scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="scripts/jquery.tablesorter.js" type="text/javascript"></script>
+<script type="text/javascript">
+function setRequestType(selectedOption){
+	document.getElementById("operationType").value = selectedOption.value;
+	document.getElementById("flatIDValue").value = document.getElementById("flatIdKey").value;
+}
+</script>
 </head>
 
 <body>
@@ -22,41 +28,50 @@
 	FlatDetailsVO flatDetailsVO = (FlatDetailsVO)request.getAttribute("flatDetailsVO");
 	DwellersMasterVO dwellersMasterVO = (DwellersMasterVO)request.getAttribute("dwellersMasterVO");
 	FinancialDetailsVO financialDetailsVO = (FinancialDetailsVO)request.getAttribute("financialDetailsVO");
-	Boolean editDwellerFlag = (Boolean)request.getAttribute("editDwellerFlag");
+	Boolean editDwellerFlag = false;
+	if(request.getAttribute("editDwellerFlag")!= null){
+		editDwellerFlag = (Boolean)request.getAttribute("editDwellerFlag");
+	}
+	Boolean editFlatDetails = false;
+	if(request.getAttribute("editFlatDetails")!= null){
+		editFlatDetails = (Boolean)request.getAttribute("editFlatDetails");
+	}
 	
 	if (flatDetailsVO != null) {
 %>
 		<div id="flatDetails" class="formContainer">
-			<form>
+    		<form id="UpdateFlatDetails" name="UpdateFlatDetails" method="post" action="./ServerAdapter">
+    			<input name="ServiceName" type="hidden" value="UpdateFlatDetails" />
+				<input name="flatIdKey" id="flatIdKey" type="hidden" value="<%=flatDetailsVO.getFlatId()%>"/>
 				<div class="formHeader">
 					<b>Flat Details</b>
 					<span>[<a title="Help" href='#' ><b>?</b></a>]</span>
 				</div>
 		    	<div class="col1">
 	        		<div class="labels"><label for="flatNumber">Flat Number</label></div>
-	        		<div class="fields"><input type="text" id="flatNumber" name="flatNumber" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumber())%>" readonly/></div>
+	        		<div class="fields"><input type="text" id="flatNumber" name="flatNumber" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumber())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 	
 	        		<div class="labels"><label for="flatNumberPrefix1">Flat Number Prefix</label></div>
-	        		<div class="fields"><input type="text" id="flatNumberPrefix1" name="flatNumberPrefix1" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberPrefix1())%>" readonly/></div>
+	        		<div class="fields"><input type="text" id="flatNumberPrefix1" name="flatNumberPrefix1" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberPrefix1())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 	
 	        		<div class="labels"><label for="floorNumber">Floor Number</label></div>
-	        		<div class="fields"><input type="text" id="floorNumber" name="floorNumber" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFloorNumber())%>" readonly/></div>
+	        		<div class="fields"><input type="text" id="floorNumber" name="floorNumber" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFloorNumber())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 		    	</div>
 		    	
 		    	<div class="col2">
 	        		<div class="labels"><label for="flatStatus">Flat Status</label></div>
 	        		<div class="fields">
-		          		<select id="flatStatus" name="flatStatus" disabled>
-		            		<option value="0">Sold</option>
-		            		<option value="1">Unsold</option>
+		          		<select id="flatStatus" name="flatStatus"  <%if(!editFlatDetails) {%>disabled<%}%>>
+		            		<option value="1" <%if("1".equals(flatDetailsVO.getFlatStatus())){ %>selected<%} %>>Sold</option>
+		            		<option value="0" <%if("0".equals(flatDetailsVO.getFlatStatus())){ %>selected<%} %>>Unsold</option>
 		          		</select>
 	        		</div>
 	
 					<div class="labels"><label for="flatNumberPrefix2">Flat Number Prefix (more)</label></div>
-	    	    	<div class="fields"><input type="text" id="flatNumberPrefix2" name="flatNumberPrefix2" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberPrefix2())%>" readonly/></div>
+	    	    	<div class="fields"><input type="text" id="flatNumberPrefix2" name="flatNumberPrefix2" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberPrefix2())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 	
 	        		<div class="labels"><label for="areaInSqft">Area (sqft)</label></div>
-	        		<div class="fields"><input type="text" id="areaInSqft" name="areaInSqft" value="<%=StringUtil.getStringForForm(flatDetailsVO.getAreaInSqft())%>" readonly/></div>
+	        		<div class="fields"><input type="text" id="areaInSqft" name="areaInSqft" value="<%=StringUtil.getStringForForm(flatDetailsVO.getAreaInSqft())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 		    	</div>
 		    	
 		    	<div class="col3">
@@ -64,19 +79,23 @@
 		    		<div class="fields"><input type="text" id="flatId" name="flatId" value="mgra/<%=StringUtil.getStringForForm(flatDetailsVO.getFlatId())%>" readonly/></div>
 	
 		        	<div class="labels"><label for="flatNumberSuffix1">Flat Number Suffix</label></div>
-	    	    	<div class="fields"><input type="text" id="flatNumberSuffix1" name="flatNumberSuffix1" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberSuffix1())%>" readonly/></div>
+	    	    	<div class="fields"><input type="text" id="flatNumberSuffix1" name="flatNumberSuffix1" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberSuffix1())%>"  <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 		    	</div>
 	
 		    	<div class="col4">
 	        		<div class="labels"><label for="createDate">Create Date</label></div>
-	        		<div class="fields"><input type="text" id="createDate" name="createDate" value="<%=DateUtil.dateToString(flatDetailsVO.getCreateDate(), DateFormat.MMM_dd_yyyy)%>" readonly readonly/></div>
+	        		<div class="fields"><input type="text" id="createDate" name="createDate" value="<%=DateUtil.dateToString(flatDetailsVO.getCreateDate(), DateFormat.MMM_dd_yyyy)%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 	        
 		        	<div class="labels"><label for="flatNumberSuffix2">Flat Number Suffix (more)</label></div>
-	    	    	<div class="fields"><input type="text" id="flatNumberSuffix2" name="flatNumberSuffix2" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberSuffix2())%>" readonly/></div>
+	    	    	<div class="fields"><input type="text" id="flatNumberSuffix2" name="flatNumberSuffix2" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberSuffix2())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 		    	</div>
 		    	<div class="horSeparator5px"></div>
 		        <div class="formActions">
-		        	<div class="fields"><input type="submit" value="Edit Flat Details" disabled /></div>
+					<%if(editFlatDetails) {%>
+						<input name="Submit" type="submit" value="Update" />
+					<%} else {%>
+						<input type="button" id="editFlatDetails" name="editFlatDetails" value="Edit Flat Details" onclick="overlay('login');setRequestType(this)"></input>
+					<%} %>
 		        </div>
 	        </form>
 		</div>
@@ -189,7 +208,7 @@
 						<%if(editDwellerFlag) {%>
 							<input name="Submit" type="submit" value="Update" />
 						<%} else {%>
-							<input type="button" id="editFlatDetails" name="editFlatDetails" value="Edit Dweller Details" onclick="overlay('login')"></input>
+							<input type="button" id="editDwellerDetails" name="editDwellerDetails" value="Edit Dweller Details" onclick="overlay('login');setRequestType(this)"></input>
 						<%} %>
 					</div>
 		        </div>
@@ -236,30 +255,6 @@
 	}
 %>
     </div>
-    
-<!--LOGIN OVERLAY STARTS-->
-<div id="login" class="overlayContainer">
-	<div class="overlayContentWrapper">
-		<div class="overlayHeader">
-			<b>Super User Login</b>
-			<span>[<a href='#' onclick="overlay('login')" accessKey="ESC"><b>X</b></a>]</span>
-		</div>
-		<div class="overlayContent">
-		  <form id="loginForm" name="loginForm" method="post" action="./ServerAdapter">
-		    <input name="ServiceName" type="hidden" value="Login" />
-		    <input name="operationName" type="hidden" value="edit-apts-detail" />
-		    <input name=flatID type="hidden" value="<%=dwellersMasterVO.getFlatId()%>"/>
-            <div class="labels"><label for="username">Username</label></div>
-          	<div class="fields"><input type="text" id="username" name="username" class="input" maxlength="2" /></div>
-            <div class="labels"><label for="password">Password</label></div>
-          	<div class="fields"><input type="password" id="password" name="password" class="input" maxlength="2" /></div>
-	        <div class="fields"><input name="Submit" type="submit" value="Login" /></div>
-		  </form>
-		</div>
-	</div>
-</div>
-<!--LOGIN OVERLAY ENDS-->
-
     <div class="footer">
       <%@include file="/common/static/footer.html"%>
     </div>

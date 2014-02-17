@@ -263,4 +263,27 @@ function overlay(sectionId) {
         </div>
 	</div>
 </div>
-<!--CONTACT SUPPORT OVERLAY ENDS-->
+<!--CONTACT SUPPORT OVERLAY ENDS-->    
+<!--LOGIN OVERLAY STARTS-->
+<div id="login" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Super User Login</b>
+			<span>[<a href='#' onclick="overlay('login')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		  <form id="loginForm" name="loginForm" method="post" action="./ServerAdapter">
+		    <input name="ServiceName" id="ServiceName" type="hidden" value="Login" />
+		    <input name="operationName" id="operationName" type="hidden" value="edit-apts-detail" />
+		    <input name="operationType" id="operationType" type="hidden" value="" />
+		    <input name="flatIDValue" id="flatIDValue" type="hidden" value="" />
+            <div class="labels"><label for="username">Username</label></div>
+          	<div class="fields"><input type="text" id="username" name="username" class="input" maxlength="2" /></div>
+            <div class="labels"><label for="password">Password</label></div>
+          	<div class="fields"><input type="password" id="password" name="password" class="input" maxlength="2" /></div>
+	        <div class="fields"><input name="Submit" type="submit" value="Login" /></div>
+		  </form>
+		</div>
+	</div>
+</div>
+<!--LOGIN OVERLAY ENDS-->

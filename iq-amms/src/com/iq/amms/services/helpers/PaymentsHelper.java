@@ -20,12 +20,15 @@ public class PaymentsHelper extends BaseHelper {
   private static final String INSERT_PAYMENT_INWARDS_DETAILS =
     "INSERT INTO PAYMENT_INWARDS_DETAILS (PAYMENT_ID, CHEQUE_NUMBER,"
         + "CHEQUE_DRAWEE_BANK,CHEQUE_DRAWN_DATE,CHEQUE_CLEARANCE_DATE,NEFT_TRANSACTION_ID,"
-        + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE) VALUES(?,?,?,?,?,?,?,?)";
+        + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE,CHEQUE_DRAWN_BRANCH,CHEQUE_RECEIVED_DATE)" +
+        " VALUES(?,?,?,?,?,?,?,?,?,?)";
 
   private static final String UPDATE_PAYMENT_INWARDS_DETAILS =
     "UPDATE PAYMENT_INWARDS_DETAILS SET CHEQUE_NUMBER = ?,"
-        + "CHEQUE_DRAWEE_BANK = ?,CHEQUE_DRAWN_DATE = ?,CHEQUE_CLEARANCE_DATE = ?,NEFT_TRANSACTION_ID = ?,"
-        + "NEFT_TRANSACTION_DATE = ?,NEFT_CLEARANCE_DATE = ? WHERE PAYMENT_ID = ?";
+        + "CHEQUE_DRAWEE_BANK = ?,CHEQUE_DRAWN_DATE = ?," +
+        "CHEQUE_CLEARANCE_DATE = ?,NEFT_TRANSACTION_ID = ?,"
+        + "NEFT_TRANSACTION_DATE = ?,NEFT_CLEARANCE_DATE = ?," +
+        "CHEQUE_DRAWN_BRANCH=?,CHEQUE_RECEIVED_DATE=? WHERE PAYMENT_ID = ?";
 
   private static final String INSERT_PAYMENT_INWARDS_MASTER =
       "INSERT INTO PAYMENT_INWARDS_MASTER (FLAT_ID, PAID_AMOUNT, PAYMENT_STATUS,MODE_OF_PAYMENT) VALUES(?,?,?,?)";
@@ -37,7 +40,8 @@ public class PaymentsHelper extends BaseHelper {
   private static final String GET_PAYMENT_DETAILS =
       "SELECT PAYMENT_ID, CHEQUE_NUMBER,"
           + "CHEQUE_DRAWEE_BANK,CHEQUE_DRAWN_DATE,CHEQUE_CLEARANCE_DATE,NEFT_TRANSACTION_ID,"
-          + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE FROM PAYMENT_INWARDS_DETAILS WHERE PAYMENT_ID=?";
+          + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE,CHEQUE_DRAWN_BRANCH,CHEQUE_DRAWN_DATE" +
+          " FROM PAYMENT_INWARDS_DETAILS WHERE PAYMENT_ID=?";
 
   private static final String GET_PAYMENT_MASTER_DETAILS =
       "SELECT FLAT_ID, PAID_AMOUNT, PAYMENT_STATUS,"
@@ -228,7 +232,9 @@ public class PaymentsHelper extends BaseHelper {
             chequeDetailsVO.getChequeClearanceDate(),
             neftDetailsVO.getNeftTransactionID(),
             neftDetailsVO.getNeftTransactionDate(),
-            neftDetailsVO.getNeftClearanceDate());
+            neftDetailsVO.getNeftClearanceDate(),
+            chequeDetailsVO.getChequeDrawnBranch(),
+            chequeDetailsVO.getChequeDrawnDate());
     return i;
   }
 
@@ -258,7 +264,9 @@ public class PaymentsHelper extends BaseHelper {
             neftDetailsVO.getNeftTransactionID(),
             neftDetailsVO.getNeftTransactionDate(),
             neftDetailsVO.getNeftClearanceDate(),
-            paymentDetailsVO.getPaymentID());
+            paymentDetailsVO.getPaymentID(),
+            chequeDetailsVO.getChequeDrawnBranch(),
+            chequeDetailsVO.getChequeReceivedDate());
     return i;
   }
   
@@ -311,6 +319,10 @@ public class PaymentsHelper extends BaseHelper {
           "CHEQUE_DRAWN_DATE"));
       chequeDetailsVO.setChequeNumber(dataSet
           .getIntValue(0, "CHEQUE_NUMBER"));
+      chequeDetailsVO.setChequeDrawnBranch(dataSet
+              .getStringValue(0, "CHEQUE_DRAWN_BRANCH"));
+      chequeDetailsVO.setChequeDrawnDate(dataSet
+              .getDateValue(0, "CHEQUE_DRAWN_DATE"));
       paymentDetailsVO.setChequeDetailsVO(chequeDetailsVO);
 
       NeftDetailsVO neftDetailsVO = new NeftDetailsVO();

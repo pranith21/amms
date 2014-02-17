@@ -30,15 +30,38 @@ function paymentModeSelectChange(paymentModeSelect) {
 		var numberContent = '';
 		document.getElementById('transNumber').innerHTML = numberContent;
 
+		var numberContent = '';
+		document.getElementById('transName').innerHTML = numberContent;
+		var numberContent = '';
+		document.getElementById('chequeNumber').innerHTML = numberContent;
+
 		var nameContent = '';
-		document.getElementById('transName').innerHTML = nameContent;
+		document.getElementById('chequeDraweeBank').innerHTML = nameContent;
+
+		var nameContent = '';
+		document.getElementById('chequeDrawnBranch').innerHTML = nameContent;
+
+		var nameContent = '';
+		document.getElementById('chequeDrawnDate').innerHTML = nameContent;
 	}
 	else if (selectedValue == '1') {
-		var numberContent = '<div class="labels"><label for="chequeNumber">Cheque Number</label></div><div class="fields"><input type="text" name="chequeNumber" maxlength="8" required /></div>';
+		var numberContent = '<div class="labels"></div><div class="fields"></div>';
 		document.getElementById('transNumber').innerHTML = numberContent;
 
+		var numberContent = '<div class="labels"></div><div class="fields"></div>';
+		document.getElementById('transName').innerHTML = numberContent;
+
+		var numberContent = '<div class="labels"><label for="chequeNumber">Cheque Number</label></div><div class="fields"><input type="text" name="chequeNumber" maxlength="8" required /></div>';
+		document.getElementById('chequeNumber').innerHTML = numberContent;
+
 		var nameContent = '<div class="labels"><label for="chequeDraweeBank">Cheque Drawee Bank</label></div><div class="fields"><input type="text" name="chequeDraweeBank" maxlength="100" required /></div>';
-		document.getElementById('transName').innerHTML = nameContent;
+		document.getElementById('chequeDraweeBank').innerHTML = nameContent;
+
+		var nameContent = '<div class="labels"><label for="chequeDrawnBranch">Cheque Drawn Branch</label></div><div class="fields"><input type="text" name="chequeDrawnBranch" maxlength="100" /></div>';
+		document.getElementById('chequeDrawnBranch').innerHTML = nameContent;
+
+		var nameContent = '<div class="labels"><label for="chequeDrawnDate">Drawn Date(MMM-DD-YYYY)</label></div><div class="fields"><input type="text" name="chequeDrawnDate" maxlength="12" required /></div>';
+		document.getElementById('chequeDrawnDate').innerHTML = nameContent;
 	}
 	else if (selectedValue == '2') {
 		var numberContent = '<div class="labels"><label for="neftTransactionId">NEFT Transaction ID</label></div><div class="fields"><input type="text" name="neftTransactionId" maxlength="25" required /></div>';
@@ -46,6 +69,18 @@ function paymentModeSelectChange(paymentModeSelect) {
 
 		var nameContent = '';
 		document.getElementById('transName').innerHTML = nameContent;
+
+		var numberContent = '';
+		document.getElementById('chequeNumber').innerHTML = numberContent;
+
+		var nameContent = '';
+		document.getElementById('chequeDraweeBank').innerHTML = nameContent;
+
+		var nameContent = '';
+		document.getElementById('chequeDrawnBranch').innerHTML = nameContent;
+
+		var nameContent = '';
+		document.getElementById('chequeDrawnDate').innerHTML = nameContent;
 	}
 }
 </script>
@@ -144,15 +179,7 @@ function paymentModeSelectChange(paymentModeSelect) {
 							<option value="-1">--select--</option>
 							<option value="5">Cheque Cleared</option>
 							<option value="2">Cheque Bounced</option>
-<%
-			}
-			else if(neftMode) {
-%>
-							<option value="-1">--select--</option>
-							<option value="5">NEFT Valid</option>
-							<option value="4">NEFT Invalid</option>
-<%
-			}
+<%			}
 %>
 		          		</select>
   					</div>
@@ -206,6 +233,9 @@ function paymentModeSelectChange(paymentModeSelect) {
 		            		<option value="2">NEFT</option>
 		          		</select>
 	        		</div>
+					<div id="chequeNumber">
+					
+					</div>
 
 		    	</div>
 		    	
@@ -215,6 +245,9 @@ function paymentModeSelectChange(paymentModeSelect) {
 					
 					<div class="labels"><label for="paidAmount">Amount</label></div>
 					<div class="fields"><input type="text" name="paidAmount" maxlength="11" required /></div>
+					<div id="chequeDraweeBank">
+					
+					</div>
 		    	</div>
 		    	
 		    	<div class="col3">
@@ -222,6 +255,9 @@ function paymentModeSelectChange(paymentModeSelect) {
 					<div class="fields"></div>
 					
 					<div id="transNumber">
+					
+					</div>
+					<div id="chequeDrawnBranch">
 					
 					</div>
 				</div>
@@ -233,8 +269,11 @@ function paymentModeSelectChange(paymentModeSelect) {
 					<div id="transName">
 					
 					</div>
+					<div id="chequeDrawnDate">
+					
+					</div>
 		    	</div>
-		    	<div class="horSeparator5px"></div>
+		    	<div class="horSeparator10px"></div>
 		        <div class="formActions">
 					<div class="fields">
 						<input type="submit" name="submit" value="Pay" />

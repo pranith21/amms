@@ -49,9 +49,6 @@ public class UpdatePaymentStatus extends BaseService {
       if (PaymentMode.CHEQUE.getPaymentModeValue().equals(paymentMasterVO.getPaymentType())) {
         paymentDetailsVO.getChequeDetailsVO().setChequeClearanceDate(new Date());
       }
-      else if (PaymentMode.NEFT.getPaymentModeValue().equals(paymentMasterVO.getPaymentType())) {
-        paymentDetailsVO.getNeftDetailsVO().setNeftClearanceDate(new Date());
-      }
 
       paymentsHelper.updatePaymentDetails(paymentDetailsVO);
 

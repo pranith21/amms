@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.iq.service.BaseService;
+import org.iq.util.date.DateUtil;
+import org.iq.util.date.DateUtil.DateFormat;
 
 import com.iq.amms.Constants.PaymentMode;
 import com.iq.amms.services.helpers.FlatsHelper;
@@ -25,6 +27,8 @@ public class PayBill extends BaseService {
 
   private static final String CHEQUE_NUMBER_KEY = "chequeNumber";
   private static final String CHEQUE_DRAWEE_BANK_KEY = "chequeDraweeBank";
+  private static final String CHEQUE_DRAWN_BRANCH_KEY = "chequeDrawnBranch";
+  private static final String CHEQUE_DRAWN_DATE_KEY = "chequeDrawnDate";
   private static final String NEFT_TRANSACTION_ID_KEY = "neftTransactionId";
 
   private static final String FLAT_ID_KEY = "flatId";
@@ -42,6 +46,8 @@ public class PayBill extends BaseService {
     Double billAmount = null;
     String paymentMode = null;
     String chequeDraweeBank = null;
+    String chequeDrawnBranch = null;
+    Date chequeDrawnDate = null;
     int chequeNumber = 0;
     String neftTransactionID = null;
 
@@ -65,11 +71,19 @@ public class PayBill extends BaseService {
       chequeNumber =
         Integer.valueOf(input.get(CHEQUE_NUMBER_KEY).toString());
     }
+    if (input.get(CHEQUE_DRAWN_BRANCH_KEY) != null
+    		&& input.get(CHEQUE_DRAWN_BRANCH_KEY) != "") {
+    	chequeDrawnBranch = input.get(CHEQUE_DRAWN_BRANCH_KEY).toString();
+    }
+    if (input.get(CHEQUE_DRAWN_DATE_KEY) != null
+    		&& input.get(CHEQUE_DRAWN_DATE_KEY) != "") {
+    	chequeDrawnDate = DateUtil.stringToDate(input.get(CHEQUE_DRAWN_DATE_KEY).
+    			toString(), DateFormat.MMM_dd_yyyy);
+    }
     if (input.get(NEFT_TRANSACTION_ID_KEY) != null
         && input.get(NEFT_TRANSACTION_ID_KEY) != "") {
       neftTransactionID = input.get(NEFT_TRANSACTION_ID_KEY).toString();
     }
-
 
     PaymentMasterVO paymentMasterVO = new PaymentMasterVO();
     PaymentDetailsVO paymentDetailsVO = new PaymentDetailsVO();
@@ -93,18 +107,20 @@ public class PayBill extends BaseService {
         ChequeDetailsVO chequeDetailsVO = new ChequeDetailsVO();
         chequeDetailsVO.setChequeNumber(chequeNumber);
         chequeDetailsVO.setChequeDraweeBank(chequeDraweeBank);
-        chequeDetailsVO.setChequeDrawnDate(new Date());
+        chequeDetailsVO.setChequeDrawnBranch(chequeDrawnBranch);
+        chequeDetailsVO.setChequeDrawnDate(chequeDrawnDate);
+        chequeDetailsVO.setChequeReceivedDate(new Date());
         chequeDetailsVO.setChequeClearanceDate(null);
 
         paymentDetailsVO.setChequeDetailsVO(chequeDetailsVO);
       }
       else if (paymentMode.equals(PaymentMode.NEFT.getPaymentModeValue())) {
-        paymentMasterVO.setPaymentStatus(3);
+        paymentMasterVO.setPaymentStatus(5);
 
         NeftDetailsVO neftDetailsVO = new NeftDetailsVO();
         neftDetailsVO.setNeftTransactionID(neftTransactionID);
         neftDetailsVO.setNeftTransactionDate(new Date());
-        neftDetailsVO.setNeftClearanceDate(null);
+        neftDetailsVO.setNeftClearanceDate(new Date());
 
         paymentDetailsVO.setNeftDetailsVO(neftDetailsVO);
       }
@@ -127,7 +143,8 @@ public class PayBill extends BaseService {
     }
     
     Double currBal = 0.0;
-    if (paymentMode.equals(PaymentMode.CASH.getPaymentModeValue())) {
+    if (paymentMode.equals(PaymentMode.CASH.getPaymentModeValue()) || 
+    		paymentMode.equals(PaymentMode.NEFT.getPaymentModeValue())) {
       currBal = paymentsHelper.updateFinancialBills(flatId, billAmount);
     }
 

@@ -24,7 +24,7 @@ public class FlatDetailsVO {
   private String flatNumberSuffix1 = null;
   private String flatNumberSuffix2 = null;
   private String floorNumber = null;
-  private FlatStatus flatStatus = null;
+  private String flatStatus = null;
   private int areaInSqft = 0;
   private Date createDate = null;
 
@@ -165,14 +165,14 @@ public class FlatDetailsVO {
   /**
    * @return the status
    */
-  public FlatStatus getFlatStatus() {
+  public String getFlatStatus() {
     return flatStatus;
   }
 
   /**
    * @param status the status to set
    */
-  public void setFlatStatus(FlatStatus status) {
+  public void setFlatStatus(String status) {
     this.flatStatus = status;
   }
   

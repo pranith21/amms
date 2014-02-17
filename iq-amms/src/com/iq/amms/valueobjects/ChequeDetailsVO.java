@@ -22,11 +22,19 @@ public class ChequeDetailsVO {
 	/**
 	 * 
 	 */
+	private String chequeDrawnBranch = null;
+	/**
+	 * 
+	 */
 	private Date chequeDrawnDate = null;
 	/**
 	 * 
 	 */
 	private Date chequeClearanceDate = null;
+	/**
+	 * 
+	 */
+	private Date chequeReceivedDate = null;
 	
 	/**
 	 * @return the chequeNumber
@@ -76,6 +84,28 @@ public class ChequeDetailsVO {
 	public void setChequeClearanceDate(Date chequeClearanceDate) {
 		this.chequeClearanceDate = chequeClearanceDate;
 	}
-	
-
+	/**
+	 * @return the chequeReceivedDate
+	 */
+	public Date getChequeReceivedDate() {
+		return chequeReceivedDate;
+	}
+	/**
+	 * @param chequeReceivedDate the chequeReceivedDate to set
+	 */
+	public void setChequeReceivedDate(Date chequeReceivedDate) {
+		this.chequeReceivedDate = chequeReceivedDate;
+	}
+	/**
+	 * @return the chequeDrawnBranch
+	 */
+	public String getChequeDrawnBranch() {
+		return chequeDrawnBranch;
+	}
+	/**
+	 * @param chequeDrawnBranch the chequeDrawnBranch to set
+	 */
+	public void setChequeDrawnBranch(String chequeDrawnBranch) {
+		this.chequeDrawnBranch = chequeDrawnBranch;
+	}
 }
