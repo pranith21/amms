@@ -29,11 +29,13 @@ public class SystemConf {
   private static final String DB_NAME = "db.name";
 
   private static String appRoot = null;
+  private static String webAppsDir = null;
   private static Properties sysProps = new Properties();
 
   static {
     try {
-      appRoot = getSystemProperty(CATALINA_HOME)+File.separator+"webapps/amms";
+        appRoot = getSystemProperty(CATALINA_HOME)+File.separator+"webapps/amms";
+        webAppsDir = getSystemProperty(CATALINA_HOME)+File.separator+"webapps";
       sysProps.load(new FileInputStream(appRoot+File.separator+"resources/system.conf"));
     }
     catch (FileNotFoundException e) {
@@ -55,6 +57,13 @@ public class SystemConf {
    */
   public static String getAppRoot() {
     return appRoot;
+  }
+
+  /**
+   * @return
+   */
+  public static String getwebAppsDir() {
+    return webAppsDir;
   }
 
   /**

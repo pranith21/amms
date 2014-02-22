@@ -56,6 +56,7 @@ public class StartupServlet extends GenericServlet {
               DateFormat.MMM_dd_yyyy);
         int i = dueDate.compareTo(today);
         if (i < 0) {
+        	systemHelper.createBackUp();
           billHelper.processLatePayments();
           systemHelper.updateLatePaymentProcessed(1);
           System.out.println("LATE PAYMENTS PROCESSING DONE.");
@@ -77,6 +78,7 @@ public class StartupServlet extends GenericServlet {
               DateFormat.MMM_dd_yyyy);
       int i = nextBillDate.compareTo(today);
       if (i <= 0) {
+      	systemHelper.createBackUp();
         billHelper.generateInvoices(today);
         systemHelper.updateNextBillDate(DateUtil.addToDate(today, 1,
             DatePart.MONTH));
@@ -92,7 +94,7 @@ public class StartupServlet extends GenericServlet {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
+    systemHelper.uploadBackupFiles();
     System.out.println("APPLICATION STARTED SUCCESSFULLY");
   }
   
