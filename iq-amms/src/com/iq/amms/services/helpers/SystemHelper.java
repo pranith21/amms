@@ -1,14 +1,19 @@
 package com.iq.amms.services.helpers;
 
-import java.util.Calendar;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 
 import org.iq.db.DataSet;
 import org.iq.exception.DbException;
 import org.iq.service.helpers.BaseHelper;
 import org.iq.util.date.DateUtil;
 import org.iq.util.date.DateUtil.DateFormat;
+import org.iq.util.file.FileUtil;
+
+import com.iq.amms.SystemConf;
 
 /**
  * @author Sam
@@ -181,5 +186,56 @@ public class SystemHelper extends BaseHelper {
   public void updateNextBillDate(Date billDate) throws DbException {
     mySqlSession.executeUpdate(SYSTEM_PARAMS_UPDATE_QUERY, DateUtil.dateToString(billDate, 
     		DateFormat.MMM_dd_yyyy),  NEXT_BILL_DATE);
+  }
+  
+  public int createBackUp() {
+	  Runtime runtime = Runtime.getRuntime();
+
+	  Process process = null;
+	  String fileName = null;
+	  String filePath = null;
+	  try {
+		  String userName = SystemConf.getDbUser();
+		  String password = SystemConf.getDbPass();
+		  String dbName = SystemConf.getDbName();
+		  Date createDate = new Date();
+		  String backUpFolder =  SystemConf.getwebAppsDir()+"/dbbackup";
+		  if(!FileUtil.isFileExists(backUpFolder)){
+			  FileUtil.createFolder(backUpFolder);
+		  }
+		  fileName = "amms-"+DateUtil.dateToString(createDate, DateFormat.MM_dd_yyyy)+
+				  DateUtil.dateToString(createDate, DateFormat.HH_mm_ss_SSS)+".sql";
+		  filePath =  backUpFolder+"/"+fileName;
+		  String command = "cmd /c "+SystemConf.getAppRoot()+"/resources/databackup.bat "+ 
+				  userName+" "+password+" "+dbName+" "+filePath;
+		  
+		  System.out.println("Creating back up file");
+		  process = runtime.exec(command);
+		  process.waitFor();
+	  } catch (IOException e) {
+		  e.printStackTrace();
+	  } catch (InterruptedException e) {
+		  e.printStackTrace();
+	  }
+	 return process.exitValue();
+  }
+  
+  public void uploadBackupFiles(){
+	  String backUpFolder =  SystemConf.getwebAppsDir()+"/dbbackup";
+	  
+	  if(FileUtil.isFileExists(backUpFolder)){
+		 List<File> fileList = FileUtil.listAllFiles(new File(backUpFolder));
+		 for (Iterator<File> iterator = fileList.iterator(); iterator.hasNext();) {
+			File file = iterator.next();
+			if (file != null) {
+				  String srcFilename = file.getAbsolutePath();
+				  String destFilename = "/ammsdbbackup/"+file.getName();
+				  System.out.println(srcFilename);
+				  System.out.println(destFilename);
+				  Thread syncThread = new SyncThread(srcFilename, destFilename);
+				  syncThread.start();
+			}
+		}
+	  }
   }
 }
