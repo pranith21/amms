@@ -2,10 +2,10 @@
 	<target name="start">
 
 		<exec dir="C:/Windows/System32" executable="cmd" os="Windows XP">
-			<arg line="/c D:/sw/apache-tomcat-7.0.25/bin/shutdown.bat" />
+			<arg line="/c D:/softwares/Tomcat/bin/shutdown.bat" />
 		</exec>
 
-		<delete dir="D:/sw/apache-tomcat-7.0.25/webapps/amms" />
+		<delete dir="D:/softwares/Tomcat/webapps/amms" />
 
 		<!--delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.html" />
 	<delete dir="D:/SW/apache-tomcat-7.0.25/webapps/amms/**/*.jsp" />
@@ -32,16 +32,16 @@
 		</fileset>
 	</delete-->
 
-		<mkdir dir="D:/sw/apache-tomcat-7.0.25/webapps/amms" />
+		<mkdir dir="D:/softwares/Tomcat/webapps/amms" />
 
-		<copy todir="D:/sw/apache-tomcat-7.0.25/webapps/amms">
+		<copy todir="D:/softwares/Tomcat/webapps/amms">
 			<fileset dir="${build.home}/amms/web">
 				<include name="**" />
 			</fileset>
 		</copy>
 
 		<exec dir="C:/Windows/System32" executable="cmd" os="Windows XP">
-			<arg line="/c D:/sw/apache-tomcat-7.0.25/bin/startup.bat" />
+			<arg line="/c D:/softwares/Tomcat/bin/startup.bat" />
 		</exec>
 	</target>
 </project>

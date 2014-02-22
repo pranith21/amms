@@ -14,27 +14,41 @@
 		
 		<delete dir="${build.home}" />
 		
-		<mkdir dir="${build.home}/amms" />
-		<mkdir dir="${build.home}/amms/web" />
-		<mkdir dir="${build.home}/amms/setup" />
+		<property name="zip.dir" value="amms-${build.date}" />
 		
-		<copy todir="${build.home}/amms/web">
+		<mkdir dir="${build.home}/${zip.dir}" />
+		
+		<war warfile="${build.home}/${zip.dir}/amms.war" webxml="${WebContent.dir}/WEB-INF/web.xml">
+			<classes dir="${Classes.dir}" />
+			<lib dir="${WebContent.dir}/WEB-INF/lib">
+				<include name="**/*.jar" />
+			</lib>
 			<fileset dir="${WebContent.dir}">
-				<include name="**" />
+				<include name="**/*.html" />
+				<include name="**/*.jsp" />
+				<include name="**/*.js" />
+				<include name="**/*.png" />
+				<include name="**/*.css" />
+			</fileset>
+			<fileset dir="${proj.root}/${proj.name}">
+				<include name="**/*" />
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${builder}" />
+				<attribute name="Built-On" value="${build-info.current-date}" />
+				<attribute name="Built-At" value="${build-info.current-time}" />
+			</manifest>
+		</war>
+		
+		<copy todir="${build.home}/${zip.dir}">
+			<fileset dir="${proj.root}/${proj.name}/resources">
+				<include name="**/*.cmd" />
 			</fileset>
 		</copy>
 		
-		<copy todir="${build.home}/amms/web/resources">
-			<fileset dir="${resource.dir}">
-				<include name="**/*.conf" />
-			</fileset>
-		</copy>
+		<zip destfile="${build.home}/${zip.dir}.zip" basedir="${build.home}" />
 		
-		<!--ant antfile="setup-jar-build.xml" target="start" /-->
+		<delete dir="${build.home}/${zip.dir}"/>
 
-		<!-- for test -->
-		<ant antfile="for-test.xml" target="start" />
-		<!-- for test -->
 	</target>
-	
 </project>
