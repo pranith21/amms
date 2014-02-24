@@ -49,7 +49,6 @@ public class UpdatePaymentStatus extends BaseService {
       if (PaymentMode.CHEQUE.getPaymentModeValue().equals(paymentMasterVO.getPaymentType())) {
         paymentDetailsVO.getChequeDetailsVO().setChequeClearanceDate(new Date());
       }
-
       paymentsHelper.updatePaymentDetails(paymentDetailsVO);
 
       Double currBal = 0.0;
@@ -58,11 +57,11 @@ public class UpdatePaymentStatus extends BaseService {
       }
       else {
         FinancialsHelper financialsHelper = new FinancialsHelper();
+        financialsHelper.incrementBounceFlag(flatId);
         FinancialDetailsVO financialDetailsVO = financialsHelper.getFinancialDetails(flatId);
         currBal = financialDetailsVO.getCurrentBalance();
       }
       resultAttributes.put(CURRENT_BALANCE_KEY, currBal);
-
     }
     resultAttributes.put(FLAT_ID_KEY, flatId);
 

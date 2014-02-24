@@ -234,7 +234,7 @@ public class PaymentsHelper extends BaseHelper {
             neftDetailsVO.getNeftTransactionDate(),
             neftDetailsVO.getNeftClearanceDate(),
             chequeDetailsVO.getChequeDrawnBranch(),
-            chequeDetailsVO.getChequeDrawnDate());
+            chequeDetailsVO.getChequeReceivedDate());
     return i;
   }
 

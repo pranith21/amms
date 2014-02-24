@@ -116,7 +116,7 @@ public class BillHelper extends BaseHelper {
       // bill for new month
 
       // bill for late payments
-      if (financialDetailsVO.getLatePaymentFlag()>0) {
+      if (financialDetailsVO.getLatePaymentFlag()==1) {
         billDetailsVO = new BillDetailsVO();
         billDetailsVO.setBillId(billMasterVO.getBillId());
         billDetailsVO.setChargeName(LATE_PAYMENT_CHARGES
@@ -125,9 +125,7 @@ public class BillHelper extends BaseHelper {
                 DateFormat.MMM_yy)));
         billDetailsVO.setChargeType(SYSTEM);
 
-        chargeAmount =
-            financialDetailsVO.getLatePaymentFlag()
-                * systemHelper.getLatePaymentAmount();
+        chargeAmount = systemHelper.getLatePaymentAmount();
         billDetailsVO.setChargeAmount(chargeAmount);
 
         billMasterVO.addToBillDetailsList(billDetailsVO);

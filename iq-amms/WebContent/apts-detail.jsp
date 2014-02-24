@@ -231,6 +231,8 @@ function setRequestType(selectedOption){
 				</div>
 		    	
 		    	<div class="col2">
+					<div class="labels"></div>
+		    		<div class="fields"><a href="bill-details.jsp?flatId=<%=flatDetailsVO.getFlatId()%>">[View Last bill...]</a></div>
 		    	</div>
 		    	
 		    	<div class="col3">
