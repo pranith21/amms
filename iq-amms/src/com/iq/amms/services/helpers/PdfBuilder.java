@@ -12,14 +12,11 @@ import org.iq.util.money.Money;
 import org.iq.util.money.MoneyUtil;
 import org.iq.util.string.StringUtil;
 
-import com.iq.amms.SystemConf;
 import com.iq.amms.Constants.PaymentMode;
+import com.iq.amms.SystemConf;
 import com.iq.amms.valueobjects.BillDetailsVO;
 import com.iq.amms.valueobjects.BillPdflDataVO;
-import com.iq.amms.valueobjects.DwellersMasterVO;
-import com.iq.amms.valueobjects.FlatDetailsVO;
-import com.iq.amms.valueobjects.PaymentDetailsVO;
-import com.iq.amms.valueobjects.PaymentMasterVO;
+import com.iq.amms.valueobjects.ReportDataVO;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -61,7 +58,7 @@ public class PdfBuilder {
     PdfWriter.getInstance(document, new FileOutputStream(fileName));
     document.open();
 
-    addInvoiceMetaData(document);
+    addMetaData(document, "Maintenance Bill");
 //  short count = 0;
     addHeader(document, billPdflDataVO.getDateOfGeneration());
     addEmptyLine(document, 1);
@@ -93,7 +90,7 @@ public class PdfBuilder {
     PdfWriter.getInstance(document, new FileOutputStream(fileName));
     document.open();
 
-    addInvoiceMetaData(document);
+    addMetaData(document, "Maintenance Bill");
     short count = 0;
     for (BillPdflDataVO billPdflDataVO : billPdflDataVOList) {
       addHeader(document, billPdflDataVO.getDateOfGeneration());
@@ -124,13 +121,6 @@ public class PdfBuilder {
     document.close();
   }
   
-
-  private static void addInvoiceMetaData(Document document) {
-    document.addTitle("Maintenance Bill");
-    document.addAuthor("AMMS System");
-    document.addCreationDate();
-  }
-
   private static void addHeader(Document document, Date dateOfGeneration)
       throws DocumentException {
     Paragraph headerParagraph =
@@ -322,46 +312,6 @@ public class PdfBuilder {
 	}
   }
 
-  public static void main(String[] args) throws Exception {
-	  int flatId = 6;
-		int paymentId = 85;
-	  FlatsHelper flatsHelper = new FlatsHelper();
-		PaymentsHelper paymentsHelper = new PaymentsHelper();
-		
-		FlatDetailsVO flatDetailsVO = flatsHelper.getFlatDetails(flatId);
-		DwellersMasterVO dwellersMasterVO = flatsHelper.getDwellerDetails(flatId);
-		PaymentMasterVO paymentMasterVO = paymentsHelper.getPaymentMaster(paymentId);
-		PaymentDetailsVO paymentDetailsVO = paymentsHelper.getPaymentDetails(paymentId);
-		
-		BillPdflDataVO billPdflDataVO = new BillPdflDataVO();
-		billPdflDataVO.setName(dwellersMasterVO.getName());
-		billPdflDataVO.setFlatNumber(flatDetailsVO.getFullFlatNumber());
-	    billPdflDataVO.setDateOfGeneration(paymentMasterVO.getPaymentDate());
-	    String receiptNumber = flatId+" - "+paymentId+DateUtil.dateToString(
-	    		paymentMasterVO.getPaymentDate(), DateFormat.MM_dd_yyyy);
-	    billPdflDataVO.setReceiptNumber(receiptNumber);
-	    PaymentMode paymentMode = PaymentMode.getPaymentMode(paymentMasterVO.getPaymentType());
-	    billPdflDataVO.setPaymentMode(paymentMode);
-	    switch (paymentMode) {
-	    case CHEQUE:
-	    	billPdflDataVO.setPaymentNumber(StringUtil.getStringValue(paymentDetailsVO.
-	    			getChequeDetailsVO().getChequeNumber()));
-	    break;	
-	    case NEFT:
-	    	billPdflDataVO.setPaymentNumber(StringUtil.getStringValue(paymentDetailsVO.
-	    			getNeftDetailsVO().getNeftTransactionID()));
-	    	break;
-	    case CASH:
-	    break;
-	    default:
-	    break;
-	    }
-		billPdflDataVO.setTotalAmount(paymentMasterVO.getPaidAmount());
-		
-	    FileUtil.createFolder(SystemConf.getAppRoot()+File.separator+"pdfs/payments");
-	    PdfBuilder.createReceipt(SystemConf.getAppRoot()+File.separator+"pdfs/payments/"+receiptNumber+".pdf", billPdflDataVO);
-  }
-
   /**
    * @param fileName
    * @param billPdflDataVO
@@ -372,7 +322,7 @@ public class PdfBuilder {
     PdfWriter.getInstance(document, new FileOutputStream(fileName));
     document.open();
 
-    addReceiptMetaData(document);
+    addMetaData(document, "Payment Receipt");
     
     addReceiptHeader(document, new Date());
     
@@ -392,15 +342,6 @@ public class PdfBuilder {
     document.close();
   }
   
-  /**
-   * @param document
-   */
-  private static void addReceiptMetaData(Document document) {
-    document.addTitle("Payment Receipt");
-    document.addAuthor("AMMS System");
-    document.addCreationDate();
-  }
-
   private static void addReceiptHeader(Document document,
       Date dateOfGeneration) throws DocumentException {
     Paragraph headerParagraph =
@@ -581,5 +522,136 @@ public class PdfBuilder {
     table.addCell(footCell);
 
     document.add(table);
+  }
+  
+  public static void createReport(String fileName, ReportDataVO reportDataVO) throws Exception {
+	    Document document = new Document();
+	    PdfWriter.getInstance(document, new FileOutputStream(fileName));
+	    document.open();
+
+	    addMetaData(document, "Report - "+reportDataVO.getTableHeader());
+	    
+	    addReportHeader(document, reportDataVO.getTableHeader());
+	    
+	    addEmptyLine(document, 1);
+
+	    addReportMasterData(document, reportDataVO);
+	    
+	    addEmptyLine(document, 2);
+
+	    addReceiptFooter(document);
+
+	    document.close();
+	  
+  }
+  
+  /**
+   * @param document
+   */
+  private static void addMetaData(Document document, String title) {
+    document.addTitle(title);
+    document.addAuthor("AMMS System");
+    document.addCreationDate();
+  }
+
+  private static void addReportHeader(Document document, String title) throws DocumentException {
+    Paragraph headerParagraph =
+        new Paragraph("Report - "+title, BOLD_FONT);
+    headerParagraph.setAlignment(Element.ALIGN_CENTER);
+    document.add(headerParagraph);
+    
+    PdfPTable dateTable = new PdfPTable(new float[] { 80, 5, 15 });
+    
+    dateTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+    dateTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+    dateTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_BOTTOM);
+
+    dateTable.addCell(new Phrase(" ", NORMAL_FONT));
+
+    PdfPCell tableCell = new PdfPCell(new Phrase("Date", SMALL_FONT));
+    tableCell.setBorder(Rectangle.NO_BORDER);
+    dateTable.addCell(tableCell);
+
+    tableCell = new PdfPCell(new Phrase(DateUtil.dateToString(new Date(),
+        DateFormat.MMM_dd_yyyy), NORMAL_FONT));
+    tableCell.setBorder(Rectangle.BOTTOM);
+    tableCell.setBorderColor(BaseColor.LIGHT_GRAY);
+    dateTable.addCell(tableCell);
+
+    document.add(dateTable);
+
+    addEmptyLine(document, 1);
+
+  }
+  
+  private static void addReportMasterData(Document document, ReportDataVO reportDataVO)
+      throws Exception {
+
+    PdfPTable detailsTable = new PdfPTable(3);
+    detailsTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+    detailsTable.getDefaultCell().setBorder(Element.PTABLE);
+    detailsTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
+    
+    String[] oneRow = reportDataVO.getHeaders();
+
+    PdfPCell tableCell = new PdfPCell(new Phrase(oneRow[0], BOLD_FONT));
+    tableCell.setColspan(1);
+    tableCell.setBorder(Rectangle.BOX);
+    detailsTable.addCell(tableCell);
+
+    tableCell = new PdfPCell(new Phrase(oneRow[1], BOLD_FONT));
+    tableCell.setColspan(1);
+    tableCell.setBorder(Rectangle.BOX);
+    detailsTable.addCell(tableCell);
+
+    tableCell = new PdfPCell(new Phrase(oneRow[2], BOLD_FONT));
+    tableCell.setColspan(1);
+    tableCell.setBorder(Rectangle.BOX);
+    detailsTable.addCell(tableCell);
+
+    ArrayList<String[]> data = reportDataVO.getData();
+    
+    int size = data.size();
+    
+    if(data !=null && size > 0){
+    	for (String[] content : data) {
+    	    size--;
+    	    tableCell = new PdfPCell(new Phrase(content[0], SMALL_FONT));
+    	    tableCell.setColspan(1);
+    	    tableCell.setBorder(Rectangle.BOX);
+    	    detailsTable.addCell(tableCell);
+
+    	    tableCell = new PdfPCell(new Phrase(content[1], SMALL_FONT));
+    	    tableCell.setColspan(1);
+    	    tableCell.setBorder(Rectangle.BOX);
+    	    detailsTable.addCell(tableCell);
+    	    if(size == 0){
+        	    String c = content[2];
+        	    c= c.substring(3,c.length()-4);
+        	    tableCell = new PdfPCell(new Phrase(c, SMALL_FONT));
+    	    }else{
+        	    tableCell = new PdfPCell(new Phrase(content[2], SMALL_FONT));
+    	    }
+    	    tableCell.setColspan(1);
+    	    tableCell.setBorder(Rectangle.BOX);
+    	    detailsTable.addCell(tableCell);
+		}
+    }
+    document.add(detailsTable);
+
+  }
+  
+  public static void main(String[] args) throws Exception {
+		ReportDataVO reportDataVO = new ReportDataVO();
+		reportDataVO.setTableHeader("Hello");
+		String[] oneRow = new String[]{ "Flat Number", "Owner",
+		          "<b>Current Due</b>" };
+		reportDataVO.setHeaders(oneRow);
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		data.add(oneRow);
+		reportDataVO.setData(data);
+	    FileUtil.createFolder(SystemConf.getAppRoot()+File.separator+"pdfs/reports");
+	    PdfBuilder.createReport(SystemConf.getAppRoot()+File.separator+"pdfs/reports"+
+	    File.separator+reportDataVO.getTableHeader()+".pdf", reportDataVO);
   }
 }

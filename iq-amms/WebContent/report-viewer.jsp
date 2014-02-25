@@ -63,12 +63,19 @@
 			</tbody>
 <%
 		}
+		String fileName = request.getAttribute("reportDataFileName").toString();
 %>
 		</table>
+	<div class="formContainer">
+    		<form id="ExportPDFReport" name="ExportPDFReport" method="post" action="./ServerAdapter">
+    			<input name="ServiceName" type="hidden" value="ExportPDFReport" />
+				<input name="reportDataFileName" id="reportDataFileName" type="hidden" value="<%=fileName%>"/>
+				<input type="submit" id="submit" value="Export PDF"/>
+			</form>
+	</div>
 <%
 	}
 %>
-	</div>
 	
 	<div class="footer">
 		<%@include file="common/static/footer.html"%>
