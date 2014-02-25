@@ -32,6 +32,7 @@
 			</fileset>
 			<fileset dir="${proj.root}/${proj.name}">
 				<include name="**/*" />
+				<exclude name="**/*.cmd" />
 			</fileset>
 			<manifest>
 				<attribute name="Built-By" value="${builder}" />
