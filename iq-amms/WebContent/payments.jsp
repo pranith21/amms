@@ -60,7 +60,7 @@ function paymentModeSelectChange(paymentModeSelect) {
 		var nameContent = '<div class="labels"><label for="chequeDrawnBranch">Cheque Drawn Branch</label></div><div class="fields"><input type="text" name="chequeDrawnBranch" maxlength="100" /></div>';
 		document.getElementById('chequeDrawnBranch').innerHTML = nameContent;
 
-		var nameContent = '<div class="labels"><label for="chequeDrawnDate">Drawn Date(MMM-DD-YYYY)</label></div><div class="fields"><input type="text" name="chequeDrawnDate" maxlength="12" required /></div>';
+		var nameContent = '<div class="labels"><label for="chequeDrawnDate">Drawn Date</label></div><div class="fields"><input type="date" name="chequeDrawnDate" maxlength="12" required /></div>';
 		document.getElementById('chequeDrawnDate').innerHTML = nameContent;
 	}
 	else if (selectedValue == '2') {

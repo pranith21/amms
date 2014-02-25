@@ -84,7 +84,7 @@ function setRequestType(selectedOption){
 	
 		    	<div class="col4">
 	        		<div class="labels"><label for="createDate">Create Date</label></div>
-	        		<div class="fields"><input type="text" id="createDate" name="createDate" value="<%=DateUtil.dateToString(flatDetailsVO.getCreateDate(), DateFormat.MMM_dd_yyyy)%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
+	        		<div class="fields"><input type="date" id="createDate" name="createDate" value="<%=DateUtil.dateToString(flatDetailsVO.getCreateDate(), DateFormat.yyyy_MM_dd)%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
 	        
 		        	<div class="labels"><label for="flatNumberSuffix2">Flat Number Suffix (more)</label></div>
 	    	    	<div class="fields"><input type="text" id="flatNumberSuffix2" name="flatNumberSuffix2" value="<%=StringUtil.getStringForForm(flatDetailsVO.getFlatNumberSuffix2())%>" <%if(!editFlatDetails) {%>readonly<%}%>/></div>
@@ -163,9 +163,9 @@ function setRequestType(selectedOption){
 						<input type="text" id="middleName" name="middleName" value="<%=StringUtil.getStringForForm(dwellersMasterVO.getNameMiddle())%>" <%if(!editDwellerFlag) {%>readonly<%}%>/>
 					</div>
 					
-					<div class="labels"><label for="dateOfBirth">Birthday(<%=DateFormat.MMM_dd_yyyy.toString()%>)</label></div>
+					<div class="labels"><label for="dateOfBirth">Birthday</label></div>
 					<div class="fields">
-						<input type="text" id="dateOfBirth" name="dateOfBirth" value="<%=StringUtil.getStringForForm(DateUtil.dateToString(dwellersMasterVO.getDateOfBirth(), DateFormat.MMM_dd_yyyy))%>" <%if(!editDwellerFlag) {%>readonly<%}%>/>
+						<input type="date" id="dateOfBirth" name="dateOfBirth" value="<%=StringUtil.getStringForForm(DateUtil.dateToString(dwellersMasterVO.getDateOfBirth(), DateFormat.yyyy_MM_dd))%>" <%if(!editDwellerFlag) {%>readonly<%}%>/>
 					</div>
 					
 					<div class="labels"><label for="mobile">Mobile</label></div>
@@ -192,9 +192,9 @@ function setRequestType(selectedOption){
 						<input type="text" id="lastName" name="lastName" value="<%=StringUtil.getStringForForm(dwellersMasterVO.getNameLast())%>" <%if(!editDwellerFlag) {%>readonly<%} else {%>required<%}%>/>
 					</div>
 					
-					<div class="labels"><label for="dateOfAnniversary">Anniversary(<%=DateFormat.MMM_dd_yyyy.toString()%>)</label></div>
+					<div class="labels"><label for="dateOfAnniversary">Anniversary</label></div>
 					<div class="fields">
-						<input type="text" id="dateOfAnniversary" name="dateOfAnniversary" value="<%=StringUtil.getStringForForm(DateUtil.dateToString(dwellersMasterVO.getDateOfAnniversary(), DateFormat.MMM_dd_yyyy))%>" <%if(!editDwellerFlag) {%>readonly<%}%>/>
+						<input type="date" id="dateOfAnniversary" name="dateOfAnniversary" value="<%=StringUtil.getStringForForm(DateUtil.dateToString(dwellersMasterVO.getDateOfAnniversary(), DateFormat.yyyy_MM_dd))%>" <%if(!editDwellerFlag) {%>readonly<%}%>/>
 					</div>
 					
 					<div class="labels"><label for="resiPhone">Phone Residence</label></div>

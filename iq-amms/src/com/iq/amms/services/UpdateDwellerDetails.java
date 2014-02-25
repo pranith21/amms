@@ -54,8 +54,8 @@ public class UpdateDwellerDetails extends BaseService {
 		String lastName = StringUtil.getStringValue(input.get(LAST_NAME));
 		String preferredName = StringUtil.getStringValue(input.get(PREFERRED_NAME));
 		String gender = StringUtil.getStringValue(input.get(GENDER));
-		Date dateOfBirth = DateUtil.stringToDate(input.get(DATE_OF_BIRTH).toString(), DateFormat.MMM_dd_yyyy);
-		Date dateOfAnniversary = DateUtil.stringToDate(input.get(DATE_OF_ANNIVERSARY).toString(), DateFormat.MMM_dd_yyyy);
+		Date dateOfBirth = DateUtil.stringToDate(input.get(DATE_OF_BIRTH).toString(), DateFormat.yyyy_MM_dd);
+		Date dateOfAnniversary = DateUtil.stringToDate(input.get(DATE_OF_ANNIVERSARY).toString(), DateFormat.yyyy_MM_dd);
 		String businessPhone = StringUtil.getStringValue(input.get(BUSINESS_PHONE));
 		String businessPhoneExtn = StringUtil.getStringValue(input.get(BUSINESS_PHONE_EXTN));
 		String mobile = StringUtil.getStringValue(input.get(MOBILE_PHONE));

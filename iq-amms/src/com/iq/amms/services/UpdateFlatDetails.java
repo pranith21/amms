@@ -58,7 +58,7 @@ public class UpdateFlatDetails extends BaseService {
 		flatDetailsVO.setFlatNumberPrefix2(flatNumberPrefix2);
 		flatDetailsVO.setAreaInSqft(areaInSqft);
 		flatDetailsVO.setFlatNumberSuffix1(flatNumberSuffix1);
-		flatDetailsVO.setCreateDate(DateUtil.stringToDate(createDate,DateFormat.MMM_dd_yyyy));
+		flatDetailsVO.setCreateDate(DateUtil.stringToDate(createDate,DateFormat.yyyy_MM_dd));
 		flatDetailsVO.setFlatNumberSuffix2(flatNumberSuffix2);
 		
 		FlatsHelper flatsHelper = new FlatsHelper();

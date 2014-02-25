@@ -77,8 +77,8 @@ public class PayBill extends BaseService {
     }
     if (input.get(CHEQUE_DRAWN_DATE_KEY) != null
     		&& input.get(CHEQUE_DRAWN_DATE_KEY) != "") {
-    	chequeDrawnDate = DateUtil.stringToDate(input.get(CHEQUE_DRAWN_DATE_KEY).
-    			toString(), DateFormat.MMM_dd_yyyy);
+    	chequeDrawnDate = DateUtil.stringToDate(input.get(CHEQUE_DRAWN_DATE_KEY)
+    			.toString(),DateFormat.yyyy_MM_dd);
     }
     if (input.get(NEFT_TRANSACTION_ID_KEY) != null
         && input.get(NEFT_TRANSACTION_ID_KEY) != "") {

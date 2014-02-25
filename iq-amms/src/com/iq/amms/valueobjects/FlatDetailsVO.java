@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.iq.util.string.StringUtil;
 
-import com.iq.amms.Constants.FlatStatus;
-
 /**
  * @author SC64807
  *

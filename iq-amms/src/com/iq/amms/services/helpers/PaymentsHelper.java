@@ -40,8 +40,8 @@ public class PaymentsHelper extends BaseHelper {
   private static final String GET_PAYMENT_DETAILS =
       "SELECT PAYMENT_ID, CHEQUE_NUMBER,"
           + "CHEQUE_DRAWEE_BANK,CHEQUE_DRAWN_DATE,CHEQUE_CLEARANCE_DATE,NEFT_TRANSACTION_ID,"
-          + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE,CHEQUE_DRAWN_BRANCH,CHEQUE_DRAWN_DATE" +
-          " FROM PAYMENT_INWARDS_DETAILS WHERE PAYMENT_ID=?";
+          + "NEFT_TRANSACTION_DATE,NEFT_CLEARANCE_DATE,CHEQUE_DRAWN_BRANCH,CHEQUE_DRAWN_DATE," +
+          "CHEQUE_RECEIVED_DATE FROM PAYMENT_INWARDS_DETAILS WHERE PAYMENT_ID=?";
 
   private static final String GET_PAYMENT_MASTER_DETAILS =
       "SELECT FLAT_ID, PAID_AMOUNT, PAYMENT_STATUS,"
@@ -255,8 +255,7 @@ public class PaymentsHelper extends BaseHelper {
       neftDetailsVO = new NeftDetailsVO();
     }
 
-    int i =
-        mySqlSession.executeUpdate(UPDATE_PAYMENT_INWARDS_DETAILS,
+    int i = mySqlSession.executeUpdate(UPDATE_PAYMENT_INWARDS_DETAILS,
             chequeDetailsVO.getChequeNumber(),
             chequeDetailsVO.getChequeDraweeBank(),
             chequeDetailsVO.getChequeDrawnDate(),
@@ -264,9 +263,9 @@ public class PaymentsHelper extends BaseHelper {
             neftDetailsVO.getNeftTransactionID(),
             neftDetailsVO.getNeftTransactionDate(),
             neftDetailsVO.getNeftClearanceDate(),
-            paymentDetailsVO.getPaymentID(),
             chequeDetailsVO.getChequeDrawnBranch(),
-            chequeDetailsVO.getChequeReceivedDate());
+            chequeDetailsVO.getChequeReceivedDate(),
+            paymentDetailsVO.getPaymentID());
     return i;
   }
   
@@ -323,6 +322,8 @@ public class PaymentsHelper extends BaseHelper {
               .getStringValue(0, "CHEQUE_DRAWN_BRANCH"));
       chequeDetailsVO.setChequeDrawnDate(dataSet
               .getDateValue(0, "CHEQUE_DRAWN_DATE"));
+      chequeDetailsVO.setChequeReceivedDate(dataSet
+    		  .getDateValue(0, "CHEQUE_RECEIVED_DATE"));
       paymentDetailsVO.setChequeDetailsVO(chequeDetailsVO);
 
       NeftDetailsVO neftDetailsVO = new NeftDetailsVO();
