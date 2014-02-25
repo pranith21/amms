@@ -1,13 +1,17 @@
 package com.iq.amms.services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.iq.service.BaseService;
+import org.iq.util.file.FileUtil;
 import org.iq.util.string.StringUtil;
 
+import com.iq.amms.SystemConf;
 import com.iq.amms.services.helpers.FinancialsHelper;
 import com.iq.amms.services.helpers.FlatsHelper;
+import com.iq.amms.services.helpers.PdfBuilder;
 import com.iq.amms.valueobjects.DwellersMasterVO;
 import com.iq.amms.valueobjects.FinancialDetailsVO;
 import com.iq.amms.valueobjects.FlatDetailsVO;
@@ -121,7 +125,17 @@ public class GenerateReport extends BaseService {
 
     }
 
+    if (!FileUtil.isFileExists(SystemConf.getAppRoot() + File.separator
+            + "pdfs/reports")) {
+          FileUtil.createFolder(SystemConf.getAppRoot() + File.separator
+              + "pdfs/reports");
+    }
+
+    PdfBuilder.createReport(SystemConf.getAppRoot() + File.separator
+            + "pdfs/reports/" + reportDataVO.getTableHeader() + ".pdf", reportDataVO);
+
     resultAttributes.put("reportData", reportDataVO);
+    resultAttributes.put("reportDataFileName", "/pdfs/reports/" + reportDataVO.getTableHeader() + ".pdf");
     redirectUrl = "/report-viewer.jsp";
   }
 }
