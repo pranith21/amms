@@ -1,0 +1,55 @@
+<project name="iq-amms build" default="start" basedir=".">
+
+	<property file="main-build.properties" />
+
+	<target name="start">
+		<echo message="${StartMsg}" />
+		<tstamp>
+			<format property="build.date" pattern="${build.date.pattern}" />
+			<format property="build.time" pattern="${build.time.pattern}"/>
+		</tstamp>
+		<echo message="Build Date: ${build.date}" />
+		<echo message="Build Time: ${build.time}hrs" />
+		<echo message="Build By  : ${build.user}" />
+		
+		<delete dir="${build.home}" />
+		
+		<property name="zip.dir" value="amms-${build.date}" />
+		
+		<mkdir dir="${build.home}/${zip.dir}" />
+		
+		<war warfile="${build.home}/${zip.dir}/amms.war" webxml="${WebContent.dir}/WEB-INF/web.xml">
+			<classes dir="${Classes.dir}" />
+			<lib dir="${WebContent.dir}/WEB-INF/lib">
+				<include name="**/*.jar" />
+			</lib>
+			<fileset dir="${WebContent.dir}">
+				<include name="**/*.html" />
+				<include name="**/*.jsp" />
+				<include name="**/*.js" />
+				<include name="**/*.png" />
+				<include name="**/*.css" />
+			</fileset>
+			<fileset dir="${proj.root}/${proj.name}">
+				<include name="**/*" />
+				<exclude name="**/*.cmd" />
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${builder}" />
+				<attribute name="Built-On" value="${build-info.current-date}" />
+				<attribute name="Built-At" value="${build-info.current-time}" />
+			</manifest>
+		</war>
+		
+		<copy todir="${build.home}/${zip.dir}">
+			<fileset dir="${proj.root}/${proj.name}/resources">
+				<include name="**/*.cmd" />
+			</fileset>
+		</copy>
+		
+		<zip destfile="${build.home}/${zip.dir}.zip" basedir="${build.home}" />
+		
+		<delete dir="${build.home}/${zip.dir}"/>
+
+	</target>
+</project>

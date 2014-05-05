@@ -1,0 +1,326 @@
+<div class="quickAccessMenu">
+<!--QUICK ACCESS MENU STARTS-->
+<button title="Home" onclick="location.href='/amms'" style="background-image: url(images/home.png);"></button>
+<button title="Apartment" onclick="overlay('lookupApartment')" style="background-image: url(images/apartment-lookup.png);"></button>
+<button title="Bill Outwards" onclick="location.href='/amms/billoutwards.jsp'" style="background-image: url(images/bills.png);"></button>
+<button title="Reports" onclick="overlay('reports')" style="background-image: url(images/reports.png);"></button>
+<!--button title="Financials" onclick="overlay('financials')" style="background-image: url(images/financials.png);"></button-->
+<button title="Send Messages" onclick="overlay('SMS')" style="background-image: url(images/SMS.png);"></button>
+<button title="Configurations" onclick="location.href='/amms/settings.jsp'" style="background-image: url(images/settings.png);"></button>
+<button title="Support" onclick="overlay('contactSupport')" style="background-image: url(images/contact-support.png);"></button>
+<!--QUICK ACCESS MENU ENDS-->
+</div>
+<div class="headerContent">
+Maintenance Manager&nbsp;<sup><%=Version.versionNumber%></sup><br/>
+Mayfair Greens Residential Association
+</div>
+
+<script type="text/javascript">
+function overlay(sectionId) {
+	var section = document.getElementById(sectionId);
+	section.style.visibility = (section.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+function validateMessageType(messageType){
+	if(messageType.checked==1){
+		document.getElementById("mobileNumber").disabled=true;
+	}else{
+		document.getElementById("mobileNumber").disabled=false;
+	}
+}
+
+function validateMessage(message){
+	if(message.value.length > 140){
+		var messageLenth = document.getElementById("messageLength");
+		messageLength.innerHTML = "<h4>&nbsp;&nbsp;You will loose more SMS credits if the length exceeds 140 chars</h4>";
+	} 
+}
+
+function setOperationType(operationType){
+	document.getElementById("operationType").value = operationType.value;
+}
+</script>
+
+<style media="screen" type="text/css">
+.overlayContainer {
+  /*background: url('../images/transparent-bg.png') fixed;*/
+  height:100%;
+  width:100%;
+  top: 0px; left: 0px;
+  position: fixed;
+  text-align:center;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.overlayContentWrapper {
+  background: #eeeeee;
+  border: 1px solid #aaaaaa;
+  position: fixed;
+  top: 50px; left: 15px;
+  text-align:left;
+  width: 60%;
+  height: 390px;
+}
+
+.overlayHeader {
+  border-bottom: 1px solid #aaaaaa;
+  background: #dddddd;
+  clear: both;
+  padding: 5px;
+  text-align: left;
+}
+
+.overlayHeader span {
+  float: right;
+}
+
+.overlayContent {
+  height: 300px;
+  overflow: hidden;
+  padding: 20px 0px 0px 0px;
+  text-align: left;
+}
+
+.overlayOptions {
+  height: 50px;
+  border-top: 1px solid #aaaaaa;
+  overflow: hidden;
+  padding: 10px 0px 0px 0px;
+  text-align: left;
+}
+
+.overlayOptions button {
+  background-color: #dddddd;
+  font-family: Verdana;
+  font-size: 11px;
+  color: #333333;
+  height: 25px;
+  cursor: pointer;
+  margin: 0px 0px 0px 2px;
+}
+
+</style>
+
+<%
+	SystemHelper systemHelper = new SystemHelper();
+%>
+
+<!--APARTMENT LOOKUP OVERLAY STARTS-->
+<div id="lookupApartment" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Apartment Lookup</b>
+			<span>[<a href='#' onclick="overlay('lookupApartment')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		<form id="lookupApartment" name="lookupApartment" method="post" action="./ServerAdapter">
+          <input name="ServiceName" type="hidden" value="LookupApartment" />
+          <div class="labels"><label for="block">Block</label></div>
+          <div class="fields">
+            <select name="block">
+              <option value="Block A">A</option>
+              <option value="Block B">B</option>
+              <option value="Block C">C</option>
+              <option value="Block D">D</option>
+              <option value="Block E">E</option>
+              <option value="Block F">F</option>
+              <option value="Block G">G</option>
+              <option value="Block H">H</option>
+              <option value="Block I">I</option>
+              <option value="Block J">J</option>
+              <option value="Block K">K</option>
+              <option value="Block L">L</option>
+            </select>
+          </div>
+          <div class="labels"><label for="flatNumber">flatNumber</label></div>
+          <div class="fields"><input type="text" id="flatNumber" name="flatNumber" class="input" maxlength="3" required /></div>
+          <div class="fields"><input name="Submit" type="submit" value="Lookup" /></div>
+		</form>
+		</div>
+        <div class="overlayOptions">
+          <button title="View all Apartments" onclick="location.href='apts-view-all.jsp';">View All</button>
+          <button title="Close this pop up" onclick="overlay('lookupApartment')">Close</button>
+        </div>
+	</div>
+</div>
+<!--APARTMENT LOOKUP OVERLAY ENDS-->
+
+<!--Bill Outwards OVERLAY STARTS-->
+<div id="billoutwards" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Bill Outwards</b>
+			<span>[<a href='#' onclick="overlay('billoutwards')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+			<form id="billOutwards" name="billOutwards" method="post" action="./ServerAdapter">
+				<div class="fields">
+					<input type="submit" name="submit" value="Add Biller" onclick="setOperationType(this")/><br>
+					<input type="submit" name="submit" value="Upload Bill" onclick="setOperationType(this")/><br>
+					<input type="submit" name="submit" value="Approve Bill" onclick="setOperationType(this")/><br>
+				</div>
+			</form>
+		</div>
+        <div class="overlayOptions">
+          <button title="Close this pop up" onclick="overlay('billoutwards'),overlay('login')">Close</button>
+        </div>
+	</div>
+</div>
+<!--Bill Outwards OVERLAY ENDS-->
+
+<!--REPORTS OVERLAY STARTS-->
+<div id="reports" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Reports</b>
+			<span>[<a href='#' onclick="overlay('reports')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+			<form id="genarateReport" name="genarateReport" method="post" action="./ServerAdapter">
+				<input name="ServiceName" type="hidden" value="GenerateReport" />
+				<div class="fields">
+					<input type="submit" name="submit" value="Accounts with Dues (Debit balance)" /><br>
+					<input type="submit" name="submit" value="Accounts with no Dues (Zero balance)" /><br>
+					<input type="submit" name="submit" value="Accounts with Deposits (Credit balance)" /><br>
+				</div>
+			</form>
+		</div>
+        <div class="overlayOptions">
+          <button title="Close this pop up" onclick="overlay('reports')">Close</button>
+        </div>
+	</div>
+</div>
+<!--REPORTS OVERLAY ENDS-->
+
+<!--FINANCIALS OVERLAY STARTS-->
+<div id="financials" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Financials</b>
+			<span>[<a href='#' onclick="overlay('financials')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		  <form id="genarateBill" name="genarateBill" method="post" action="./ServerAdapter">
+		    <input name="ServiceName" type="hidden" value="GenarateBill" />
+		    <div class="labels">Last bill generation date: <%=systemHelper.getLastBillDate()%></div>
+		    <div class="labels">Next late payment generation date: <%=DateUtil.dateToString(systemHelper.getLatePaymentDueDate(), DateFormat.MMM_dd_yyyy)%></div>
+		    <div class="labels">Next bill generation date: <%=DateUtil.dateToString(systemHelper.getNextBillDate(), DateFormat.MMM_dd_yyyy)%></div>
+		    <!-- <div class="fields"><input type="submit" value="Generate bill now" disabled /></div> -->
+		  </form>
+		</div>
+        <div class="overlayOptions">
+          <!-- button title="View all Apartments" onclick="location.href='apts-view-all.jsp?callFromFinc=true';">View all</button-->
+          <!-- button title="Pay Bill amount for the flat" onclick="location.href='lookup-flat.jsp'">Make Payment</button-->
+          <!-- button title="Pay Bill amount for the flat" onclick="overlay('lookupFlat')">Take Payment</button-->
+          <button title="Close this pop up" onclick="overlay('financials')">Close</button>
+        </div>
+	</div>
+</div>
+<!--FINANCIALS OVERLAY ENDS-->
+
+<!--APARTMENT LOOKUP FOR PAYMENT OVERLAY STARTS-->
+<!-- div id="lookupFlat" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Apartment Lookup</b>
+			<span>[<a href='#' onclick="overlay('lookupFlat')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		<form id="lookupFlat" name="lookupFlat" method="post" action="./ServerAdapter">
+          <input name="ServiceName" type="hidden" value="CalculateOutstandingBill" />
+          <div class="labels"><label for="block">Block</label></div>
+          <div class="fields">
+            <select name="block">
+              <option value="Block A">A</option>
+              <option value="Block B">B</option>
+              <option value="Block C">C</option>
+              <option value="Block D">D</option>
+              <option value="Block E">E</option>
+              <option value="Block F">F</option>
+              <option value="Block G">G</option>
+              <option value="Block H">H</option>
+              <option value="Block I">I</option>
+              <option value="Block J">J</option>
+              <option value="Block K">K</option>
+              <option value="Block L">L</option>
+            </select>
+          </div>
+          <div class="labels"><label for="flatNumber">flatNumber</label></div>
+          <div class="fields"><input type="text" id="flatNumber" name="flatNumber" class="input" maxlength="3" /></div>
+          <div class="fields"><input name="Submit" type="submit" value="Pay Bill" /></div>
+		</form>
+		</div>
+        <div class="overlayOptions">
+          <div class="fields"><button title="Close this pop up" onclick="overlay('lookupFlat')">Close</button></div>
+        </div>
+	</div>
+</div-->
+<!--APARTMENT LOOKUP FOR PAYMENT OVERLAY ENDS-->
+
+<!--CONTACT SUPPORT OVERLAY STARTS-->
+<div id="contactSupport" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Contact Support</b>
+			<span>[<a href='#' onclick="overlay('contactSupport')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		  <center><h3>Mail Us - <a href="mailto:support@iquesters.com">support@iquesters.com</a></h3></center>
+		</div>
+        <div class="overlayOptions">
+          <button title="Close this pop up" onclick="overlay('contactSupport')">Close</button>
+        </div>
+	</div>
+</div>
+<!--CONTACT SUPPORT OVERLAY ENDS-->    
+<!--LOGIN OVERLAY STARTS-->
+<div id="login" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Super User Login</b>
+			<span>[<a href='#' onclick="overlay('login')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		  <form id="loginForm" name="loginForm" method="post" action="./ServerAdapter">
+		    <input name="ServiceName" id="ServiceName" type="hidden" value="Login" />
+		    <input name="operationName" id="operationName" type="hidden" value="edit-apts-detail" />
+		    <input name="operationType" id="operationType" type="hidden" value="" />
+		    <input name="flatIDValue" id="flatIDValue" type="hidden" value="" />
+            <div class="labels"><label for="username">Username</label></div>
+          	<div class="fields"><input type="text" id="username" name="username" class="input" maxlength="2" /></div>
+            <div class="labels"><label for="password">Password</label></div>
+          	<div class="fields"><input type="password" id="password" name="password" class="input" maxlength="2" /></div>
+	        <div class="fields"><input name="Submit" type="submit" value="Login" /></div>
+		  </form>
+		</div>
+	</div>
+</div>
+<!--LOGIN OVERLAY ENDS-->
+<!--SMS OVERLAY STARTS-->
+<div id="SMS" class="overlayContainer">
+	<div class="overlayContentWrapper">
+		<div class="overlayHeader">
+			<b>Send Messages</b>
+			<span>[<a href='#' onclick="overlay('SMS')" accessKey="ESC"><b>X</b></a>]</span>
+		</div>
+		<div class="overlayContent">
+		  <form id="SMSForm" name="SMSForm" method="post" action="./ServerAdapter">
+		    <input name="ServiceName" id="ServiceName" type="hidden" value="MessageSender" />
+		    <input type="checkbox" id="messageType" name="messageType" onchange="validateMessageType(this)">Send to ALL
+		    <h3>&nbsp;&nbsp;Add more than one mobile number by seperating them with ";"</h3>
+            <div class="labels"><label for="mobileNumber">Mobile Number</label></div>
+          	<div class="fields"><input type="text" id="mobileNumber" name="mobileNumber" class="input" /></div>
+            <div class="labels"><label for="message">Message</label></div>
+          	<div class="fields"><input type="text" id="message" name="message" onchange="validateMessage(this)"/></div>
+	        <br>
+	        <div id="messageLength"></div>
+	        <div class="fields"><input name="Submit" type="submit" value="Send Message" /></div>
+		  </form>
+		</div>
+        <div class="overlayOptions">
+          <button title="Close this pop up" onclick="overlay('SMS')">Close</button>
+        </div>
+	</div>
+</div>
+<!--LOGIN OVERLAY ENDS-->

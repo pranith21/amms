@@ -1,0 +1,46 @@
+<project name="iq-amms build" default="start" basedir=".">
+
+	<property file="build.properties" />
+
+	<target name="start">
+		<echo message="Building setup files" />
+		
+		<path id="build.classpath">
+			<fileset dir="${lib.dir}/">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<pathconvert property="mf.classpath" pathsep=" ">
+			<path refid="build.classpath" />
+			<flattenmapper />
+		</pathconvert>
+
+		<echo>${mf.classpath}</echo>
+
+		<jar destfile="${build.home}/amms/setup/setup.jar" basedir="${Classes.dir}">
+			<include name="com/iq/amms/setup/**" />
+			<include name="org/iq/db/**" />
+			<include name="org/iq/exception/**" />
+
+			<manifest>
+				<attribute name="Built-By" value="${build.user}" />
+				<attribute name="Built-Date" value="${build.date}" />
+				<attribute name="Version" value="${build.version}" />
+				<attribute name="Main-Class" value="com.iq.amms.setup.Setup" />
+				<attribute name="Class-Path" value="lib/iqutil.jar lib/opencsv-2.2.jar lib/com.mysql.jdbc_5.1.5.jar" />
+			</manifest>
+		</jar>
+		
+		<copy todir="${build.home}/amms/setup">
+			<fileset dir="${setup.resource.dir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${build.home}/amms/setup">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+</project>

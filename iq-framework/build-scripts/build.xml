@@ -1,0 +1,48 @@
+<project name="iq-switch-client build" default="start" basedir=".">
+
+	<property file="build.properties" />
+
+	<!--Reading the version number-->
+	<property file="${src.dir}/org/iq/util/version/version.properties" />
+
+	<target name="start">
+		<echo message="${StartMsg}" />
+		<tstamp>
+			<format property="build.date" pattern="${build.date.pattern}" />
+			<format property="build.time" pattern="${build.time.pattern}" />
+		</tstamp>
+		<echo message="Build Date   : ${build.date}" />
+		<echo message="Build Time   : ${build.time}hrs" />
+		<echo message="Build By     : ${build.user}" />
+		<echo message="Build Version: ${version.number}" />
+
+		<delete dir="${build.home}" />
+
+		<mkdir dir="${build.home}/jar" />
+		<mkdir dir="${build.home}/lib" />
+		<mkdir dir="${build.home}/src" />
+
+		<jar destfile="${build.home}/jar/${proj.name}-${version.number}.jar" basedir="${bin.dir}">
+			<include name="**" />
+			<exclude name="iq/test/**" />
+			<manifest>
+				<attribute name="Implementation-Title" value="${proj.name}-${version.number}.jar" />
+				<attribute name="Implementation-Vendor" value="iquesters" />
+				<attribute name="Implementation-Version" value="${version.number}" />
+				<attribute name="Built-Date" value="${build.date}" />
+				<attribute name="Built-Time" value="${build.time}" />
+				<attribute name="Built-By" value="${build.user}" />
+			</manifest>
+		</jar>
+
+		<zip destfile="${build.home}/src/${proj.name}-${version.number}-src.zip" basedir="${src.dir}">
+			<include name="**" />
+		</zip>
+
+		<copy todir="${build.home}/lib">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+</project>
